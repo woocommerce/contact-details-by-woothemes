@@ -179,8 +179,8 @@ final class Contact_Details_by_WooThemes_Settings {
 	public function get_settings_fields () {
 		$settings_fields = array();
 		// Declare the default settings fields.
-		
-		
+
+
 		$settings_fields['phone_number'] = array(
 										'name' => __( 'Phone Number', 'contact-details-by-woothemes' ),
 										'type' => 'text',
@@ -195,6 +195,14 @@ final class Contact_Details_by_WooThemes_Settings {
 										'default' => '',
 										'section' => 'contact-fields',
 										'description' => __( 'Enter your fax number here.', 'contact-details-by-woothemes' )
+									);
+
+		$settings_fields['location_name'] = array(
+										'name' => __( 'Location Name', 'contact-details-by-woothemes' ),
+										'type' => 'text',
+										'default' => '',
+										'section' => 'contact-fields',
+										'description' => __( 'Enter your location name here.', 'contact-details-by-woothemes' )
 									);
 
 		$settings_fields['address'] = array(

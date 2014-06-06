@@ -186,226 +186,144 @@ final class Contact_Details_by_WooThemes {
 		wp_register_script( 'contact-details-google-maps-markers', $this->plugin_url . 'assets/js/markers.js' );
 		wp_enqueue_script( 'contact-details-google-maps' );
 		wp_enqueue_script( 'contact-details-google-maps-markers' );
-	}
+	} // End loadJavaScripts()
 
 
 	public function locationOutput( $atts ) {
 		global $woo_options;
 		$a = shortcode_atts( array(
-	        'foo' => 'something',
-	        'bar' => 'something else',
+	        'display' => 'all'
 	    ), $atts );
-	    $test = $a['foo'];
+
+	    // Setup data
+	    $this->setup_data();
+
+	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'details' ) ) {
+	    	// Output location
+			$this->location_output();
+	    } // End If Statement
+	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'social' ) ) {
+	    	// Output Social Media
+			$this->social_output();
+	    } // End If Statement
+	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'map' ) ) {
+	    	// Output map
+			$this->map_output();
+	    } // End If Statement
+
+	} // End locationOutput()
+
+	public function setup_data() {
+		$this->phone_number = $this->settings->get_value( 'phone_number', '' );
+	    $this->fax_number = $this->settings->get_value( 'fax_number', '' );
+	    $this->address = $this->settings->get_value( 'address', '' );
+	    $this->email_address = $this->settings->get_value( 'email_address', '' );
+	    $this->twitter = $this->settings->get_value( 'twitter', '' );
+	    $this->facebook = $this->settings->get_value( 'facebook', '' );
+	    $this->geocoords = $this->settings->get_value( 'map_coords', '' );
+	    $this->callout = $this->settings->get_value( 'callout', '' );
+	    $this->map_marker_title = $this->settings->get_value( 'location_name', '' );
+	    // Next version -> create options for these
+	    $this->map_height = 250;
+	    $this->map_zoom = 9;
+	    $this->map_type = 'ROADMAP'; // SATELLITE, HYBRID, TERRAIN
+	    $this->map_marker_color = 'red';
+	    $this->disable_map_mouse_scroll = false;
+	} // End setup_data()
+
+	public function location_output() {
 		?>
-		<?php if ( isset($woo_options['woo_contactform_map_coords']) && $woo_options['woo_contactform_map_coords'] != '' ) { $geocoords = $woo_options['woo_contactform_map_coords']; }  else { $geocoords = ''; } ?>
+		<!-- LOCATION -->
+		<section id="location-details">
+			<?php if (isset($this->map_marker_title) && $this->map_marker_title != '' ) { ?><h2><?php _e( $this->map_marker_title, 'woothemes' ); ?></h2><?php } ?>
+    	    <?php if (isset($this->address) && $this->address != '' ) { ?><p><?php echo nl2br( esc_html( $this->address ) ); ?></p><?php } ?>
+	    	<p>
+	    	    <?php if (isset($this->phone_number) && $this->phone_number != '' ) { ?><?php _e('Tel:','woothemes'); ?> <?php echo esc_html( $this->phone_number ); ?><br /><?php } ?>
+	    	    <?php if (isset($this->fax_number) && $this->fax_number != '' ) { ?><?php _e('Fax:','woothemes'); ?> <?php echo esc_html( $this->fax_number ); ?><br /><?php } ?>
+	    	    <?php if (isset($this->email_address) && $this->email_address != '' ) { ?><?php _e('Email:','woothemes'); ?> <a href="mailto:<?php echo esc_attr( $this->email_address ); ?>"><?php echo esc_html( $this->email_address ); ?></a><br /><?php } ?>
+	    	</p>
+		</section><!-- /.location -->
+		<?php
+	} // End location_output()
 
+	public function social_output() {
+		?>
+		<!-- SOCIAL MEDIA -->
+		<section id="location-social-media">
+			<a href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'woothemes' ); ?></a>
+			<a href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'woothemes' ); ?></a>
+		</section>
+		<?php
+	} // End social_output()
+
+	public function map_output() {
+		?>
+		<!-- MAP -->
 		<section id="location-map">
-
-    		<h2><?php _e( 'Location', 'woothemes' ); ?></h2>
-
-    		<!-- LOCATION -->
-			<?php if ( isset( $woo_options['woo_contact_panel'] ) && $woo_options['woo_contact_panel'] == 'true' ) { ?>
-				<section id="location">
-			    	<ul>
-			    	    <?php if (isset($woo_options['woo_contact_title'])) { ?><li><strong><?php echo esc_html( $woo_options['woo_contact_title'] ); ?></strong></li><?php } ?>
-			    	    <?php if (isset($woo_options['woo_contact_title']) && $woo_options['woo_contact_title'] != '' ) { ?><li><?php echo nl2br( esc_html( $woo_options['woo_contact_address'] ) ); ?></li><?php } ?>
-			    	    <?php if (isset($woo_options['woo_contact_number']) && $woo_options['woo_contact_number'] != '' ) { ?><li><?php _e('Tel:','woothemes'); ?> <?php echo esc_html( $woo_options['woo_contact_number'] ); ?></li><?php } ?>
-			    	    <?php if (isset($woo_options['woo_contact_fax']) && $woo_options['woo_contact_fax'] != '' ) { ?><li><?php _e('Fax:','woothemes'); ?> <?php echo esc_html( $woo_options['woo_contact_fax'] ); ?></li><?php } ?>
-			    	    <?php if (isset($woo_options['woo_contactform_email']) && $woo_options['woo_contactform_email'] != '' ) { ?><li><?php _e('Email:','woothemes'); ?> <a href="mailto:<?php echo esc_attr( $woo_options['woo_contactform_email'] ); ?>"><?php echo esc_html( $woo_options['woo_contactform_email'] ); ?></a></li><?php } ?>
-			    	</ul>
-				</section><!-- /.location -->
-			<?php } ?>
-
-			<!-- MAP -->
-
-			<?php if ($geocoords != '') { ?>
-				<section id="map" <?php if ( isset( $woo_options['woo_contact_panel'] ) && $woo_options['woo_contact_panel'] == 'true' ) { ?>class="float"<?php } ?>>
-			    	<?php $this->woo_maps_contact_output("geocoords=$geocoords"); ?>
+    		<?php if ($this->geocoords != '') { ?>
+				<section id="map">
+			    	<?php $this->woo_maps_contact_output("geocoords=$this->geocoords"); ?>
 				</section>
 			<?php } ?>
-
     	</section><!-- /#location-map -->
     	<?php
-	}
-
-	/*-----------------------------------------------------------------------------------*/
-	/* Google Maps */
-	/*-----------------------------------------------------------------------------------*/
+	} // End map_output()
 
 	public function woo_maps_contact_output($args){
-
-		$key = get_option('woo_maps_apikey');
-
-		// No More API Key needed
 
 		if ( !is_array($args) )
 			parse_str( $args, $args );
 
 		extract($args);
-		$mode = '';
-		$streetview = 'off';
-		$map_height = get_option('woo_maps_single_height');
-		$featured_w = get_option('woo_home_featured_w');
-		$featured_h = get_option('woo_home_featured_h');
-		$zoom = get_option('woo_maps_default_mapzoom');
-		$type = get_option('woo_maps_default_maptype');
-		$marker_title = get_option('woo_contact_title');
-		if ( $zoom == '' ) { $zoom = 6; }
-		$lang = get_option('woo_maps_directions_locale');
-		$locale = '';
-		if(!empty($lang)){
-			$locale = ',locale :"'.$lang.'"';
-		}
-		$extra_params = ',{travelMode:G_TRAVEL_MODE_WALKING,avoidHighways:true '.$locale.'}';
 
-		if(empty($map_height)) { $map_height = 250;}
+		$map_height = $this->map_height;
+		$zoom = $this->map_zoom;
+		$type = $this->map_type;
+		$marker_title = $this->map_marker_title;
+		$marker_color = $this->map_marker_color;
 
-		if(is_home() && !empty($featured_h) && !empty($featured_w)){
-		?>
-	    <div id="single_map_canvas" style="width:<?php echo $featured_w; ?>px; height: <?php echo $featured_h; ?>px"></div>
-	    <?php } else { ?>
-	    <div id="single_map_canvas" style="width:100%; height: <?php echo $map_height; ?>px"></div>
-	    <?php } ?>
+		if(empty($map_height)) { $map_height = 250;} ?>
+
+		<div id="single_map_canvas" style="width:100%; height: <?php echo $map_height; ?>px"></div>
+
 	    <script type="text/javascript">
 			jQuery(document).ready(function(){
 				function initialize() {
-
-
-				<?php if($streetview == 'on'){ ?>
-
-
-				<?php } else { ?>
-
-				  	<?php switch ($type) {
-				  			case 'G_NORMAL_MAP':
-				  				$type = 'ROADMAP';
-				  				break;
-				  			case 'G_SATELLITE_MAP':
-				  				$type = 'SATELLITE';
-				  				break;
-				  			case 'G_HYBRID_MAP':
-				  				$type = 'HYBRID';
-				  				break;
-				  			case 'G_PHYSICAL_MAP':
-				  				$type = 'TERRAIN';
-				  				break;
-				  			default:
-				  				$type = 'ROADMAP';
-				  				break;
-				  	} ?>
-
-				  	var myLatlng = new google.maps.LatLng(<?php echo $geocoords; ?>);
+				  	var myLatlng = new google.maps.LatLng(<?php echo $this->geocoords; ?>);
 					var myOptions = {
 					  zoom: <?php echo $zoom; ?>,
 					  center: myLatlng,
 					  mapTypeId: google.maps.MapTypeId.<?php echo $type; ?>
 					};
-					<?php if(get_option('woo_maps_scroll') == 'true'){ ?>
-				  	myOptions.scrollwheel = false;
+					<?php if( $this->disable_map_mouse_scroll === true ){ ?>
+				  		myOptions.scrollwheel = false;
 				  	<?php } ?>
 				  	var map = new google.maps.Map(document.getElementById("single_map_canvas"),  myOptions);
+			  		var point = new google.maps.LatLng(<?php echo $this->geocoords; ?>);
+	  				var root = "<?php echo esc_url( $this->plugin_url ); ?>";
+	  				var callout = '<?php echo preg_replace("/[\n\r]/","<br/>",$this->callout); ?>';
+	  				var the_link = '<?php echo get_permalink(get_the_id()); ?>';
+	  				<?php $title = str_replace(array('&#8220;','&#8221;'),'"', $marker_title); ?>
+	  				<?php $title = str_replace('&#8211;','-',$title); ?>
+	  				<?php $title = str_replace('&#8217;',"`",$title); ?>
+	  				<?php $title = str_replace('&#038;','&',$title); ?>
+	  				var the_title = '<?php echo html_entity_decode($title) ?>';
+				 	var color = '<?php echo $this->map_marker_colour; ?>';
+		  			createMarker(map,point,root,the_link,the_title,color,callout);
+				} // End initialize()
 
-					<?php if($mode == 'directions'){ ?>
-				  	directionsPanel = document.getElementById("featured-route");
-	 				directions = new GDirections(map, directionsPanel);
-	  				directions.load("from: <?php echo $from; ?> to: <?php echo $to; ?>" <?php if($walking == 'on'){ echo $extra_params;} ?>);
-				  	<?php
-				 	} else { ?>
-
-				  		var point = new google.maps.LatLng(<?php echo $geocoords; ?>);
-		  				var root = "<?php echo esc_url( $this->plugin_url ); ?>";
-		  				var callout = '<?php echo preg_replace("/[\n\r]/","<br/>",get_option('woo_maps_callout_text')); ?>';
-		  				var the_link = '<?php echo get_permalink(get_the_id()); ?>';
-		  				<?php $title = str_replace(array('&#8220;','&#8221;'),'"', $marker_title); ?>
-		  				<?php $title = str_replace('&#8211;','-',$title); ?>
-		  				<?php $title = str_replace('&#8217;',"`",$title); ?>
-		  				<?php $title = str_replace('&#038;','&',$title); ?>
-		  				var the_title = '<?php echo html_entity_decode($title) ?>';
-
-		  			<?php
-				 	if(is_page()){
-				 		$custom = get_option('woo_cat_custom_marker_pages');
-						if(!empty($custom)){
-							$color = $custom;
-						}
-						else {
-							$color = get_option('woo_cat_colors_pages');
-							if (empty($color)) {
-								$color = 'red';
-							}
-						}
-				 	?>
-				 		var color = '<?php echo $color; ?>';
-				 		createMarker(map,point,root,the_link,the_title,color,callout);
-				 	<?php } else { ?>
-				 		var color = '<?php echo get_option('woo_cat_colors_pages'); ?>';
-		  				createMarker(map,point,root,the_link,the_title,color,callout);
-					<?php
-					}
-						if(isset($_POST['woo_maps_directions_search'])){ ?>
-
-						directionsPanel = document.getElementById("featured-route");
-	 					directions = new GDirections(map, directionsPanel);
-	  					directions.load("from: <?php echo htmlspecialchars($_POST['woo_maps_directions_search']); ?> to: <?php echo $address; ?>" <?php if($walking == 'on'){ echo $extra_params;} ?>);
-
-
-
-						directionsDisplay = new google.maps.DirectionsRenderer();
-						directionsDisplay.setMap(map);
-	    				directionsDisplay.setPanel(document.getElementById("featured-route"));
-
-						<?php if($walking == 'on'){ ?>
-						var travelmodesetting = google.maps.DirectionsTravelMode.WALKING;
-						<?php } else { ?>
-						var travelmodesetting = google.maps.DirectionsTravelMode.DRIVING;
-						<?php } ?>
-						var start = '<?php echo htmlspecialchars($_POST['woo_maps_directions_search']); ?>';
-						var end = '<?php echo $address; ?>';
-						var request = {
-	       					origin:start,
-	        				destination:end,
-	        				travelMode: travelmodesetting
-	    				};
-	    				directionsService.route(request, function(response, status) {
-	      					if (status == google.maps.DirectionsStatus.OK) {
-	        					directionsDisplay.setDirections(response);
-	      					}
-	      				});
-
-	  					<?php } ?>
-					<?php } ?>
-				<?php } ?>
-
-
-				  }
-				  function handleNoFlash(errorCode) {
-					  if (errorCode == FLASH_UNAVAILABLE) {
+				function handleNoFlash(errorCode) {
+					if (errorCode == FLASH_UNAVAILABLE) {
 						alert("Error: Flash doesn't appear to be supported by your browser");
 						return;
-					  }
-					 }
-
-
-
+					}
+				} // End handleNoFlash()
 			initialize();
-
 			});
-		jQuery(window).load(function(){
-
-			var newHeight = jQuery('#featured-content').height();
-			newHeight = newHeight - 5;
-			if(newHeight > 300){
-				jQuery('#single_map_canvas').height(newHeight);
-			}
-
-		});
-
 		</script>
 
 	<?php
-	}
-
-
+	} // End woo_maps_contact_output()
 
 } // End Class
 ?>
