@@ -177,7 +177,7 @@ final class Contact_Details_by_WooThemes {
 	 */
 	private function _log_version_number () {
 		// Log the version number.
-		update_option( $this->_token . '-version', $this->version );
+		update_option( $this->token . '-version', $this->version );
 	} // End _log_version_number()
 
 
@@ -308,7 +308,7 @@ final class Contact_Details_by_WooThemes {
 	  				<?php $title = str_replace('&#8217;',"`",$title); ?>
 	  				<?php $title = str_replace('&#038;','&',$title); ?>
 	  				var the_title = '<?php echo html_entity_decode($title) ?>';
-				 	var color = '<?php echo $this->map_marker_colour; ?>';
+				 	var color = '<?php echo $this->map_marker_color; ?>';
 		  			createMarker(map,point,root,the_link,the_title,color,callout);
 				} // End initialize()
 
