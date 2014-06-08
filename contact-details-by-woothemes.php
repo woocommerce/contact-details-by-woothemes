@@ -102,10 +102,19 @@ final class Contact_Details_by_WooThemes {
 			require_once( 'classes/class-contact-details-by-woothemes-admin.php' );
 			$this->admin = new Contact_Details_by_WooThemes_Admin();
 		}
+
+		require_once( 'classes/class-contact-details-by-woothemes-widget.php' );
+
+		/* Register the widget. */
+		add_action( 'widgets_init', create_function( '', 'return register_widget( "Contact_Details_by_WooThemes_Widget" );' ), 1 );
+
 		// Admin - End
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
+		// Template Action
+		add_action( 'contact_details', array( $this, 'locationOutput' ), 1, 1 );
 
 		// Load JavaScripts
 		add_action( 'wp_enqueue_scripts', array( $this, 'loadJavaScripts' ) );
@@ -190,7 +199,7 @@ final class Contact_Details_by_WooThemes {
 
 
 	public function locationOutput( $atts ) {
-		global $woo_options;
+
 		$a = shortcode_atts( array(
 	        'display' => 'all'
 	    ), $atts );
