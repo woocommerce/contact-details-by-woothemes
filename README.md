@@ -9,9 +9,10 @@ Add styling for theme fixes for map common issues:
 #single_map_canvas img { max-width: none; background: none; }
 
 Move JS to separate file
-Account for multiple maps and html ids
+Account for multiple maps, forms, and html ids
 Widget Cleanup
 Additional Styling
+Form including Nonce, ajax and non javascript callback
 
 How to output:
 

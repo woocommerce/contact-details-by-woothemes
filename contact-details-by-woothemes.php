@@ -119,6 +119,10 @@ final class Contact_Details_by_WooThemes {
 		// Load JavaScripts
 		add_action( 'wp_enqueue_scripts', array( $this, 'loadJavaScripts' ) );
 
+		// Load Ajax
+		add_action( 'wp_ajax_contact_form_callback', array( $this, 'form_callback' ) );
+ 		add_action(' wp_ajax_nopriv_contact_form_callback', array( $this, 'form_callback' ) );
+
 		// Load Shortcode
 		add_shortcode( 'contact_details', array( $this, 'locationOutput' ) );
 
@@ -219,6 +223,10 @@ final class Contact_Details_by_WooThemes {
 	    	// Output map
 			$this->map_output();
 	    } // End If Statement
+	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'form' ) ) {
+	    	// Output map
+			$this->form_output();
+	    } // End If Statement
 
 	} // End locationOutput()
 
@@ -277,6 +285,47 @@ final class Contact_Details_by_WooThemes {
     	</section><!-- /#location-map -->
     	<?php
 	} // End map_output()
+
+	public function form_output() {
+		?>
+		<!-- CONTACT FORM -->
+		<section id="location-contact">
+
+			<form id="location-contact-form">
+				<input type="text" name="name" value="" placeholder="<?php _e( 'Your name', 'woothemes' ); ?>" />
+				<input type="submit" value="Send" class="button animated fadeInUp" />
+			</form>
+			<script type="text/javascript">
+			jQuery(document).ready(function(){
+				jQuery('#location-contact-form').submit(function(e){
+					var name = jQuery("#name").val();
+				    var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+				    jQuery.ajax({
+				         data: {action: 'contact_form_callback', name:name},
+				         type: 'post',
+				         url: ajaxurl,
+				         success: function(data) {
+				              console.log(data);
+				              // TODO Clear the form
+				              // TODO Notify the user with success message
+				        }
+				    });
+				    e.preventDefault(); 
+				    // return false;
+				});
+			});
+			</script>
+    	</section><!-- /#location-contact -->
+    	<?php
+	} // End form_output()
+
+	public function form_callback() {
+		/*
+		Do send logic here
+		TODO - Ajax and non Ajax data
+		 */
+		die('success');
+	} // End form_callback()
 
 	public function woo_maps_contact_output($args){
 
