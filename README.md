@@ -26,3 +26,7 @@ All output functions take the following arguments:
 - 'details'
 - 'social'
 - 'map'
+
+Contact Form Actions:
+- pre_contact_form_process
+- post_contact_form_process

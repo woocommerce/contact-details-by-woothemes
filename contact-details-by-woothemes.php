@@ -324,6 +324,8 @@ final class Contact_Details_by_WooThemes {
 		Do send logic here
 		TODO - Ajax and non Ajax data
 		 */
+		do_action( 'pre_contact_form_process' );
+		do_action( 'post_contact_form_process' );
 		die('success');
 	} // End form_callback()
 
