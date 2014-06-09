@@ -11,7 +11,6 @@ Add styling for theme fixes for map common issues:
 Move JS to separate file
 Account for multiple maps, forms, and html ids
 Additional Styling
-Form including Nonce, non javascript callback
 
 How to output:
 

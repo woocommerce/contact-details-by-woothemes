@@ -167,7 +167,7 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 		);
 
 		$instance = wp_parse_args( (array) $instance, $defaults );
-?>
+		?>
 		<!-- Widget Title: Text Input -->
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (optional):', 'contact-details-by-woothemes' ); ?></label>
@@ -192,7 +192,7 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 				?>
 			</select>
 		</p>
-<?php
+	<?php
 	} // End form()
 
 	/**

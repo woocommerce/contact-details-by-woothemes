@@ -287,7 +287,25 @@ final class Contact_Details_by_WooThemes {
 	} // End map_output()
 
 	public function form_output() {
-		?>
+		if ( isset($_POST['submitted']) && !isset($_POST['form'] ) ) {
+			if ( !wp_verify_nonce( $_POST['contact_form_nonce'], 'contact_form' ) ) {
+				die( 'Failed security check' );
+			} // End If Statement
+			$non_js_data = $this->form_callback( $_POST );
+			$emailSent = false;
+			$nameError = '';
+			$emailError = '';
+			$commentError = '';
+			$mathCheck = '';
+			extract( $non_js_data );
+		} // End If Statement
+
+		if( isset( $emailSent ) && true == $emailSent ) { ?>
+
+            <p class="info"><strong><?php _e( 'Thanks!', 'woothemes' ); ?></strong> <?php _e( 'Your email was successfully sent.', 'woothemes' ); ?></p>
+
+        <?php } else { ?>
+
 		<!-- CONTACT FORM -->
 		<section id="location-contact">
 
@@ -398,14 +416,10 @@ final class Contact_Details_by_WooThemes {
 			</script>
     	</section><!-- /#location-contact -->
     	<?php
+    	} // End If Statement
 	} // End form_output()
 
-	public function form_callback() {
-		/*
-		Do send logic here
-		TODO - Ajax and non Ajax data, nonce
-		 */
-
+	public function form_callback( $args ) {
 		$emailSent = false;
 		$nameError = '';
 		$emailError = '';
@@ -468,38 +482,41 @@ final class Contact_Details_by_WooThemes {
 
 				//If there is no error, send the email
 				if( ! isset( $hasError ) ) {
-
 					$emailTo = $this->settings->get_value( 'email_address', '' );
 					$subject = sprintf( __( 'Contact Form Submission from %s', 'woothemes' ), esc_html( $name ) );
 					$sendCopy = trim( $args['sendCopy'] );
 					$body = __( "Name: $name \n\nEmail: $email \n\nComments: $comments", 'woothemes' );
 					$headers = __( 'From: ', 'woothemes') . "$name <$email>" . "\r\n" . __( 'Reply-To: ', 'woothemes' ) . $email;
-
-					error_log( var_export( $emailTo, true ) );
-					error_log( var_export( $subject, true ) );
-					error_log( var_export( $sendCopy, true ) );
-					error_log( var_export( $body, true ) );
-					error_log( var_export( $headers, true ) );
-
+					// Send the mail
 					$emailSent = wp_mail( $emailTo, $subject, $body, $headers );
-					error_log( 'mail sent' );
 					if( $sendCopy == 'true' ) {
 						$subject = __( 'You emailed ', 'woothemes' ) . stripslashes( get_bloginfo( 'title' ) );
 						$headers = __( 'From: ', 'woothemes' ) . "$name <$emailTo>";
 						wp_mail( $email, $subject, $body, $headers );
-						error_log( 'copy sent' );
-					}
-
-					error_log( var_export( $emailSent, true ) );
-
+					} // End If Statement
 				} else {
-					$emailSent = $hasError;
+					$emailSent = false;
 				} // End If Statement
+
 			} // End If Statement
 		} // End If Statement
 
 		do_action( 'post_contact_form_process' );
-		die( $emailSent );
+		if ( !isset($_POST['form']) ) {
+
+			return array(	'emailSent' => $emailSent,
+							'hasError' => $hasError,
+							'captchaError' => $captchaError,
+							'mathCheck' => $mathCheck,
+							'nameError' => $nameError,
+							'emailError' => $emailError,
+							'commentError' => $commentError,
+							'nameError' => $nameError,
+							);
+		} else {
+			die( $emailSent );
+		} // End If Statement
+
 	} // End form_callback()
 
 	public function woo_maps_contact_output($args){

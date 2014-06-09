@@ -1,5 +1,5 @@
 === Contact Details by WooThemes ===
-Contributors:
+Contributors: jeffikus, woothemes
 Donate link:
 Tags:
 Requires at least: 3.9
@@ -8,26 +8,41 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Hey there! I'm your new starter plugin.
+Contact Details is the best plugin to get your users in touch with you!.
 
 == Description ==
 
-Hey there! I'm your new starter plugin.
+Contact Details is the best plugin to get your users in touch with you!.
 
-Looking for a helping hand? [View plugin documentation](http://domain.com/).
+Looking for a helping hand? [View plugin documentation](http://doc.woothemes.com/).
 
 == Usage ==
 
-Place some text here, explaining how to use this plugin. Keep it clear and easy to read (short sentences).
+Contact Details is the best plugin to get your users in touch with you!. You can use output the contact details in the following ways:
+
+1. Add the template action into your themes php -> do_action( 'contact_details' );
+2. Add the shortcode into the content of one of your posts or pages -> [contact_details]
+3. Add the widget to a widget area -> Contact Details by WooThemes
+
+All output functions take the following arguments:
+'display' with possible values of:
+- 'all'
+- 'details'
+- 'social'
+- 'map'
+
+Shortcode Example:
+1. Output a map
+[contact_details display="map"]
 
 == Installation ==
 
 Installing "Contact Details by WooThemes" can be done either by searching for "Contact Details by WooThemes" via the "Plugins > Add New" screen in your WordPress dashboard, or by using the following steps:
 
 1. Download the plugin via WordPress.org.
-1. Upload the ZIP file through the "Plugins > Add New > Upload" screen in your WordPress dashboard.
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Visit the settings screen and configure, as desired.
+2. Upload the ZIP file through the "Plugins > Add New > Upload" screen in your WordPress dashboard.
+3. Activate the plugin through the 'Plugins' menu in WordPress
+4. Visit the settings screen and configure, as desired.
 
 == Frequently Asked Questions ==
 
