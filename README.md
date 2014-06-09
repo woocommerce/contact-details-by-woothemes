@@ -10,9 +10,8 @@ Add styling for theme fixes for map common issues:
 
 Move JS to separate file
 Account for multiple maps, forms, and html ids
-Widget Cleanup
 Additional Styling
-Form including Nonce, ajax and non javascript callback
+Form including Nonce, non javascript callback
 
 How to output:
 
@@ -21,7 +20,7 @@ How to output:
 - Use the widget -> Contact Details by WooThemes
 
 All output functions take the following arguments:
-'display' with possible values of: 
+'display' with possible values of:
 - 'all'
 - 'details'
 - 'social'
@@ -30,3 +29,5 @@ All output functions take the following arguments:
 Contact Form Actions:
 - pre_contact_form_process
 - post_contact_form_process
+
+Add Filters for Contact Title and Messages

@@ -291,29 +291,108 @@ final class Contact_Details_by_WooThemes {
 		<!-- CONTACT FORM -->
 		<section id="location-contact">
 
-			<form id="location-contact-form">
-				<input type="text" name="name" value="" placeholder="<?php _e( 'Your name', 'woothemes' ); ?>" />
-				<input type="submit" value="Send" class="button animated fadeInUp" />
-			</form>
-			<script type="text/javascript">
-			jQuery(document).ready(function(){
-				jQuery('#location-contact-form').submit(function(e){
-					var name = jQuery("#name").val();
-				    var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
-				    jQuery.ajax({
-				         data: {action: 'contact_form_callback', name:name},
-				         type: 'post',
-				         url: ajaxurl,
-				         success: function(data) {
-				              console.log(data);
-				              // TODO Clear the form
-				              // TODO Notify the user with success message
-				        }
-				    });
-				    e.preventDefault(); 
-				    // return false;
+			<?php if( isset( $hasError ) || isset( $captchaError ) ) { ?>
+   		 	    <p class="alert"><?php _e( 'There was an error submitting the form.', 'woothemes' ); ?></p>
+   		 	<?php } ?>
+   		 	<?php if ( get_option( 'woo_contactform_email' ) == '' ) { ?>
+   		 	    <?php echo do_shortcode( '[box type="alert"]' . __( 'E-mail has not been setup properly. Please add your contact e-mail!', 'woothemes' ) . '[/box]' );  ?>
+   		 	<?php } ?>
+
+			<form action="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>" id="location-contact-form" method="post">
+
+   		 		<h2><?php _e( 'Contact Form', 'woothemes' ); ?></h2>
+
+   		 	   	<p>
+   		 	        <label for="contactName"><?php _e( 'Name', 'woothemes' ); ?></label>
+	 	            <input type="text" name="contactName" id="contactName" value="<?php if( isset( $_POST['contactName'] ) ) { echo esc_attr( $_POST['contactName'] ); } ?>" class="txt requiredField" />
+	 	            <?php if($nameError != '') { ?>
+	 	                <span class="error"><?php echo $nameError;?></span>
+	 	            <?php } ?>
+	 	        </p>
+   		 	    <p>
+   		 	        <label for="email"><?php _e( 'Email', 'woothemes' ); ?></label>
+	 	            <input type="text" name="email" id="email" value="<?php if( isset( $_POST['email'] ) ) { echo esc_attr( $_POST['email'] ); } ?>" class="txt requiredField email" />
+	 	            <?php if($emailError != '') { ?>
+	 	                <span class="error"><?php echo $emailError;?></span>
+	 	            <?php } ?>
+	 	        </p>
+   		 	    <p>
+   		 	        <label for="commentsText"><?php _e( 'Message', 'woothemes' ); ?></label>
+	 	            <textarea name="comments" id="commentsText" rows="5" cols="30" class="requiredField"><?php if( isset( $_POST['comments'] ) ) { echo esc_textarea( $_POST['comments'] ); } ?></textarea>
+	 	            <?php if( $commentError != '' ) { ?>
+	 	                <span class="error"><?php echo $commentError; ?></span>
+	 	            <?php } ?>
+	 	        </p>
+   		 	    <p>
+   		 	        <label for="mathCheck"><?php _e( 'Solve:', 'woothemes' ); ?> 3 + 6 =</label>
+                    <input type="text" name="mathCheck" id="mathCheck" value="<?php if( isset( $_POST['mathCheck'] ) ) { echo esc_attr( $_POST['mathCheck'] ); } ?>" class="txt requiredField math" />
+                    <?php if($mathCheck != '') { ?>
+                        <span class="error"><?php echo $mathCheck;?></span>
+                    <?php } ?>
+	 	        </p>
+                <p>
+   		 	        <input type="checkbox" name="sendCopy" id="sendCopy" value="true"<?php if( isset( $_POST['sendCopy'] ) && $_POST['sendCopy'] == true ) { echo ' checked="checked"'; } ?> /><label for="sendCopy"><?php _e( 'Send a copy of this email to yourself', 'woothemes' ); ?></label>
+   		 	        <label for="checking" class="screenReader"><?php _e( 'If you want to submit this form, do not enter anything in this field', 'woothemes' ); ?></label><input type="text" name="checking" id="checking" class="screenReader" value="<?php if( isset( $_POST['checking'] ) ) { echo esc_attr( $_POST['checking'] ); } ?>" />
+   		 	        <input type="hidden" name="submitted" id="submitted" value="true" /><input class="submit button animated fadeInUp" type="submit" value="<?php esc_attr_e( 'Send Message', 'woothemes' ); ?>" />
+   		 	    </p>
+   		 	</form>
+
+   		 	<script type="text/javascript">
+			<!--//--><![CDATA[//><!--
+			jQuery(document).ready(function() {
+				jQuery( 'form#location-contact-form').submit(function() {
+					jQuery( 'form#location-contact-form .error').remove();
+					var hasError = false;
+					jQuery( '.requiredField').each(function() {
+						if(jQuery(this).hasClass('math')) {
+							if( jQuery.trim(jQuery(this).val()) != 9 && jQuery.trim(jQuery(this).val()).toLowerCase() != 'nine' ) {
+								jQuery(this).parent().append( '<span class="error"><?php _e( 'You got the maths wrong', 'woothemes' ); ?>.</span>' );
+								jQuery(this).addClass( 'inputError' );
+								hasError = true;
+							} // End If Statement
+						} else {
+							if(jQuery.trim(jQuery(this).val()) == '') {
+								var labelText = jQuery(this).prev( 'label').text();
+								jQuery(this).parent().append( '<span class="error"><?php _e( 'You forgot to enter your', 'woothemes' ); ?> '+labelText+'.</span>' );
+								jQuery(this).addClass( 'inputError' );
+								hasError = true;
+							} else if(jQuery(this).hasClass( 'email')) {
+								var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+								if(!emailReg.test(jQuery.trim(jQuery(this).val()))) {
+									var labelText = jQuery(this).prev( 'label').text();
+									jQuery(this).parent().append( '<span class="error"><?php _e( 'You entered an invalid', 'woothemes' ); ?> '+labelText+'.</span>' );
+									jQuery(this).addClass( 'inputError' );
+									hasError = true;
+								} // End If Statement
+							} // End If Statement
+						} // End If Statement
+					});
+					if(!hasError) {
+						var formInput = jQuery(this).serialize();
+						var name = jQuery("#name").val();
+					    var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+					    console.log(formInput);
+					    jQuery.ajax({
+					         data: {action: 'contact_form_callback', form: formInput},
+					         type: 'post',
+					         url: ajaxurl,
+					         success: function(data) {
+					              if ( data == 1 ) {
+					              	// Notify the user with success message
+									jQuery( 'form#location-contact-form').slideUp( "fast", function() {
+										jQuery(this).before( '<p class="tick"><?php _e( '<strong>Thanks!</strong> Your email was successfully sent.', 'woothemes' ); ?></p>' );
+									});
+					              } else {
+					              	// Has errors
+					              } // End If Statement
+					        }
+					    });
+					    return false;
+					} // End If Statement
+					return false;
 				});
 			});
+			//-->!]]>
 			</script>
     	</section><!-- /#location-contact -->
     	<?php
@@ -322,11 +401,106 @@ final class Contact_Details_by_WooThemes {
 	public function form_callback() {
 		/*
 		Do send logic here
-		TODO - Ajax and non Ajax data
+		TODO - Ajax and non Ajax data, nonce
+		Fields:
+		- name
+		- email
+		- message
+		- math check
+		- Send a copy to self
 		 */
+
+		$emailSent = false;
+
 		do_action( 'pre_contact_form_process' );
+
+		$nameError = '';
+		$emailError = '';
+		$commentError = '';
+		$mathCheck = '';
+
+		// Nonce test
+		if ( !is_array($args) ) {
+			parse_str( $_POST['form'], $args );
+		} // End If Statement
+
+		//If the form is submitted
+		if( isset( $args['submitted'] ) ) {
+
+			//Check to see if the honeypot captcha field was filled in
+			if( trim( $args['checking'] ) !== '' ) {
+				$captchaError = true;
+			} else {
+
+				// Check math field
+				if( $args['mathCheck'] != 9 && strcasecmp( trim( $args['mathCheck'] ), 'nine' ) != 0  ) {
+					$mathCheck = __( 'You got the maths wrong.', 'woothemes' );
+					$hasError = true;
+				} else {
+					$math = trim( $args['mathCheck'] );
+				} // End If Statement
+
+				//Check to make sure that the name field is not empty
+				if( trim( $args['contactName'] ) === '' ) {
+					$nameError =  __( 'You forgot to enter your name.', 'woothemes' );
+					$hasError = true;
+				} else {
+					$name = trim( $args['contactName'] );
+				} // End If Statement
+
+				//Check to make sure sure that a valid email address is submitted
+				if( trim( $args['email'] ) === '' )  {
+					$emailError = __( 'You forgot to enter your email address.', 'woothemes' );
+					$hasError = true;
+				} else if ( ! eregi( "^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$", trim($args['email'] ) ) ) {
+					$emailError = __( 'You entered an invalid email address.', 'woothemes' );
+					$hasError = true;
+				} else {
+					$email = trim( $args['email'] );
+				} // End If Statement
+
+				//Check to make sure comments were entered
+				if( trim( $args['comments'] ) === '' ) {
+					$commentError = __( 'You forgot to enter your comments.', 'woothemes' );
+					$hasError = true;
+				} else {
+					$comments = stripslashes( trim( $args['comments'] ) );
+				} // End If Statement
+
+				//If there is no error, send the email
+				if( ! isset( $hasError ) ) {
+
+					$emailTo = $this->settings->get_value( 'email_address', '' );
+					$subject = sprintf( __( 'Contact Form Submission from %s', 'woothemes' ), esc_html( $name ) );
+					$sendCopy = trim( $args['sendCopy'] );
+					$body = __( "Name: $name \n\nEmail: $email \n\nComments: $comments", 'woothemes' );
+					$headers = __( 'From: ', 'woothemes') . "$name <$email>" . "\r\n" . __( 'Reply-To: ', 'woothemes' ) . $email;
+
+					error_log( var_export( $emailTo, true ) );
+					error_log( var_export( $subject, true ) );
+					error_log( var_export( $sendCopy, true ) );
+					error_log( var_export( $body, true ) );
+					error_log( var_export( $headers, true ) );
+
+					$emailSent = wp_mail( $emailTo, $subject, $body, $headers );
+					error_log( 'mail sent' );
+					if( $sendCopy == true ) {
+						$subject = __( 'You emailed ', 'woothemes' ) . stripslashes( get_bloginfo( 'title' ) );
+						$headers = __( 'From: ', 'woothemes' ) . "$name <$emailTo>";
+						wp_mail( $email, $subject, $body, $headers );
+						error_log( 'copy sent' );
+					}
+
+					error_log( var_export( $emailSent, true ) );
+
+				} else {
+					$emailSent = $hasError;
+				} // End If Statement
+			} // End If Statement
+		} // End If Statement
+
 		do_action( 'post_contact_form_process' );
-		die('success');
+		die( $emailSent );
 	} // End form_callback()
 
 	public function woo_maps_contact_output($args){
