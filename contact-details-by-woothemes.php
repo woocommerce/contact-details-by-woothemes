@@ -328,16 +328,16 @@ final class Contact_Details_by_WooThemes {
 	 * @return void
 	 */
 	public function form_output() {
+		$emailSent = false;
+		$nameError = '';
+		$emailError = '';
+		$commentError = '';
+		$mathCheck = '';
 		if ( isset($_POST['submitted']) && !isset($_POST['form'] ) ) {
 			if ( !wp_verify_nonce( $_POST['contact_form_nonce'], 'contact_form' ) ) {
 				die( 'Failed security check' );
 			} // End If Statement
 			$non_js_data = $this->form_callback( $_POST );
-			$emailSent = false;
-			$nameError = '';
-			$emailError = '';
-			$commentError = '';
-			$mathCheck = '';
 			extract( $non_js_data );
 		} // End If Statement
 
