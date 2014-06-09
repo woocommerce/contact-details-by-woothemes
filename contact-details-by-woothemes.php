@@ -331,6 +331,7 @@ final class Contact_Details_by_WooThemes {
                     <?php } ?>
 	 	        </p>
                 <p>
+                	<?php wp_nonce_field('contact_form', 'contact_form_nonce' ); ?>
    		 	        <input type="checkbox" name="sendCopy" id="sendCopy" value="true"<?php if( isset( $_POST['sendCopy'] ) && $_POST['sendCopy'] == true ) { echo ' checked="checked"'; } ?> /><label for="sendCopy"><?php _e( 'Send a copy of this email to yourself', 'woothemes' ); ?></label>
    		 	        <label for="checking" class="screenReader"><?php _e( 'If you want to submit this form, do not enter anything in this field', 'woothemes' ); ?></label><input type="text" name="checking" id="checking" class="screenReader" value="<?php if( isset( $_POST['checking'] ) ) { echo esc_attr( $_POST['checking'] ); } ?>" />
    		 	        <input type="hidden" name="submitted" id="submitted" value="true" /><input class="submit button animated fadeInUp" type="submit" value="<?php esc_attr_e( 'Send Message', 'woothemes' ); ?>" />
@@ -384,6 +385,7 @@ final class Contact_Details_by_WooThemes {
 									});
 					              } else {
 					              	// Has errors
+					              	console.log(data);
 					              } // End If Statement
 					        }
 					    });
@@ -402,18 +404,9 @@ final class Contact_Details_by_WooThemes {
 		/*
 		Do send logic here
 		TODO - Ajax and non Ajax data, nonce
-		Fields:
-		- name
-		- email
-		- message
-		- math check
-		- Send a copy to self
 		 */
 
 		$emailSent = false;
-
-		do_action( 'pre_contact_form_process' );
-
 		$nameError = '';
 		$emailError = '';
 		$commentError = '';
@@ -423,6 +416,12 @@ final class Contact_Details_by_WooThemes {
 		if ( !is_array($args) ) {
 			parse_str( $_POST['form'], $args );
 		} // End If Statement
+
+		if ( !wp_verify_nonce( $args['contact_form_nonce'], 'contact_form' ) ) {
+			die( 'Failed security check' );
+		} // End If Statement
+
+		do_action( 'pre_contact_form_process' );
 
 		//If the form is submitted
 		if( isset( $args['submitted'] ) ) {
@@ -484,7 +483,7 @@ final class Contact_Details_by_WooThemes {
 
 					$emailSent = wp_mail( $emailTo, $subject, $body, $headers );
 					error_log( 'mail sent' );
-					if( $sendCopy == true ) {
+					if( $sendCopy == 'true' ) {
 						$subject = __( 'You emailed ', 'woothemes' ) . stripslashes( get_bloginfo( 'title' ) );
 						$headers = __( 'From: ', 'woothemes' ) . "$name <$emailTo>";
 						wp_mail( $email, $subject, $body, $headers );
