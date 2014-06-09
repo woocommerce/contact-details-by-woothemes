@@ -14,16 +14,16 @@ function createMarker(map,point,root,the_link,the_title,color,callout,plugin_pat
 
 	var image = root + "assets/icons/red-dot.png";
 
-	if(color == 'blue')			{ image = blueIcon }
-	else if(color == 'red')		{ image = redIcon }
-	else if(color == 'green')	{ image = greenIcon }
-	else if(color == 'yellow')	{ image = yellowIcon }
-	else if(color == 'teal')	{ image = tealIcon }
-	else if(color == 'black')	{ image = blackIcon }
-	else if(color == 'white')	{ image = whiteIcon }
-	else if(color == 'purple')	{ image = purpleIcon }
-	else if(color == 'pink')	{ image = pinkIcon }
-	else { image = customIcon }
+	if(color === 'blue')			{ image = blueIcon; }
+	else if(color === 'red')		{ image = redIcon; }
+	else if(color === 'green')		{ image = greenIcon; }
+	else if(color === 'yellow')		{ image = yellowIcon; }
+	else if(color === 'teal')		{ image = tealIcon; }
+	else if(color === 'black')		{ image = blackIcon; }
+	else if(color === 'white')		{ image = whiteIcon; }
+	else if(color === 'purple')		{ image = purpleIcon; }
+	else if(color === 'pink')		{ image = pinkIcon; }
+	else { image = customIcon; }
 
 	var marker = new google.maps.Marker({
     	map:map,
@@ -39,7 +39,7 @@ function createMarker(map,point,root,the_link,the_title,color,callout,plugin_pat
     });
 
   	google.maps.event.addListener(marker, 'click', function() {
-  		if ( callout == '' ) {
+  		if ( callout === '' ) {
   			window.location = the_link;
   		} else {
   			infowindow.open(map,marker);

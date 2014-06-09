@@ -113,7 +113,7 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 
 		echo '<div class="contact-details-by-woothemes-connect">';
 		$atts = array( 'display' => $output );
-		Contact_Details_by_WooThemes()->locationOutput( $atts );
+		Contact_Details_by_WooThemes()->contact_details_output( $atts );
 		echo '</div><!--/.contact-details-by-woothemes-connect-->';
 
 		echo $after_widget;

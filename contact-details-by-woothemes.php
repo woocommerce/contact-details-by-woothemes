@@ -114,17 +114,18 @@ final class Contact_Details_by_WooThemes {
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
 		// Template Action
-		add_action( 'contact_details', array( $this, 'locationOutput' ), 1, 1 );
+		add_action( 'contact_details', array( $this, 'contact_details_output' ), 1, 1 );
+		add_action( 'contact_form_title', array( $this, 'contact_form_title' ) );
 
-		// Load JavaScripts
-		add_action( 'wp_enqueue_scripts', array( $this, 'loadJavaScripts' ) );
+		// Load JavaScripts and Stylesheets
+		add_action( 'wp_enqueue_scripts', array( $this, 'load_javascripts_stylesheets' ) );
 
 		// Load Ajax
 		add_action( 'wp_ajax_contact_form_callback', array( $this, 'form_callback' ) );
  		add_action(' wp_ajax_nopriv_contact_form_callback', array( $this, 'form_callback' ) );
 
 		// Load Shortcode
-		add_shortcode( 'contact_details', array( $this, 'locationOutput' ) );
+		add_shortcode( 'contact_details', array( $this, 'contact_details_output' ) );
 
 	} // End __construct()
 
@@ -193,24 +194,35 @@ final class Contact_Details_by_WooThemes {
 		update_option( $this->token . '-version', $this->version );
 	} // End _log_version_number()
 
-
-	public function loadJavaScripts() {
+	/**
+	 * Load JS and CSS
+	 * @access public
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function load_javascripts_stylesheets() {
+		$suffix = '.min';
+		// JS
 		wp_register_script( 'contact-details-google-maps', 'http://maps.google.com/maps/api/js?sensor=false' );
-		wp_register_script( 'contact-details-google-maps-markers', $this->plugin_url . 'assets/js/markers.js' );
+		wp_register_script( 'contact-details-google-maps-markers', $this->plugin_url . 'assets/js/markers ' . $suffix . ' .js' );
 		wp_enqueue_script( 'contact-details-google-maps' );
 		wp_enqueue_script( 'contact-details-google-maps-markers' );
-	} // End loadJavaScripts()
+		// CSS
+		wp_enqueue_style( 'contact-details-styles', $this->plugin_url . 'assets/css/general.css' );
+	} // End load_javascripts_stylesheets()
 
-
-	public function locationOutput( $atts ) {
-
+	/**
+	 * Main output function for contact details
+	 * @access public
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function contact_details_output( $atts ) {
 		$a = shortcode_atts( array(
 	        'display' => 'all'
 	    ), $atts );
-
 	    // Setup data
 	    $this->setup_data();
-
 	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'details' ) ) {
 	    	// Output location
 			$this->location_output();
@@ -227,9 +239,14 @@ final class Contact_Details_by_WooThemes {
 	    	// Output map
 			$this->form_output();
 	    } // End If Statement
+	} // End contact_details_output()
 
-	} // End locationOutput()
-
+	/**
+	 * Sets object data and settings
+	 * @access public
+	 * @since  1.0.0
+	 * @return void
+	 */
 	public function setup_data() {
 		$this->phone_number = $this->settings->get_value( 'phone_number', '' );
 	    $this->fax_number = $this->settings->get_value( 'fax_number', '' );
@@ -248,6 +265,12 @@ final class Contact_Details_by_WooThemes {
 	    $this->disable_map_mouse_scroll = false;
 	} // End setup_data()
 
+	/**
+	 * Location details output
+	 * @access public
+	 * @since  1.0.0
+	 * @return void
+	 */
 	public function location_output() {
 		?>
 		<!-- LOCATION -->
@@ -263,6 +286,12 @@ final class Contact_Details_by_WooThemes {
 		<?php
 	} // End location_output()
 
+	/**
+	 * Social details output
+	 * @access public
+	 * @since  1.0.0
+	 * @return void
+	 */
 	public function social_output() {
 		?>
 		<!-- SOCIAL MEDIA -->
@@ -273,19 +302,31 @@ final class Contact_Details_by_WooThemes {
 		<?php
 	} // End social_output()
 
+	/**
+	 * Google Map output
+	 * @access public
+	 * @since  1.0.0
+	 * @return void
+	 */
 	public function map_output() {
 		?>
 		<!-- MAP -->
 		<section id="location-map">
     		<?php if ($this->geocoords != '') { ?>
 				<section id="map">
-			    	<?php $this->woo_maps_contact_output("geocoords=$this->geocoords"); ?>
+			    	<?php $this->maps_contact_output("geocoords=$this->geocoords"); ?>
 				</section>
 			<?php } ?>
     	</section><!-- /#location-map -->
     	<?php
 	} // End map_output()
 
+	/**
+	 * Contact form output
+	 * @access public
+	 * @since  1.0.0
+	 * @return void
+	 */
 	public function form_output() {
 		if ( isset($_POST['submitted']) && !isset($_POST['form'] ) ) {
 			if ( !wp_verify_nonce( $_POST['contact_form_nonce'], 'contact_form' ) ) {
@@ -318,7 +359,7 @@ final class Contact_Details_by_WooThemes {
 
 			<form action="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>" id="location-contact-form" method="post">
 
-   		 		<h2><?php _e( 'Contact Form', 'woothemes' ); ?></h2>
+				<?php do_action( 'contact_form_title' ); ?>
 
    		 	   	<p>
    		 	        <label for="contactName"><?php _e( 'Name', 'woothemes' ); ?></label>
@@ -351,7 +392,11 @@ final class Contact_Details_by_WooThemes {
                 <p>
                 	<?php wp_nonce_field('contact_form', 'contact_form_nonce' ); ?>
    		 	        <input type="checkbox" name="sendCopy" id="sendCopy" value="true"<?php if( isset( $_POST['sendCopy'] ) && $_POST['sendCopy'] == true ) { echo ' checked="checked"'; } ?> /><label for="sendCopy"><?php _e( 'Send a copy of this email to yourself', 'woothemes' ); ?></label>
+   		 	    </p>
+   		 	    <p>
    		 	        <label for="checking" class="screenReader"><?php _e( 'If you want to submit this form, do not enter anything in this field', 'woothemes' ); ?></label><input type="text" name="checking" id="checking" class="screenReader" value="<?php if( isset( $_POST['checking'] ) ) { echo esc_attr( $_POST['checking'] ); } ?>" />
+   		 	    </p>
+   		 	    <p>
    		 	        <input type="hidden" name="submitted" id="submitted" value="true" /><input class="submit button animated fadeInUp" type="submit" value="<?php esc_attr_e( 'Send Message', 'woothemes' ); ?>" />
    		 	    </p>
    		 	</form>
@@ -419,6 +464,23 @@ final class Contact_Details_by_WooThemes {
     	} // End If Statement
 	} // End form_output()
 
+	/**
+	 * Contact form title
+	 * @access public
+	 * @since  1.0.0
+	 * @return string
+	 */
+	public function contact_form_title() {
+		echo '<h2>' . __( 'Contact Form', 'woothemes' ) . '</h2>';
+	} // End contact_form_title()
+
+	/**
+	 * Ajax callback function for form submission
+	 * @access public
+	 * @param  $args array
+	 * @since  1.0.0
+	 * @return array or string
+	 */
 	public function form_callback( $args ) {
 		$emailSent = false;
 		$nameError = '';
@@ -435,7 +497,7 @@ final class Contact_Details_by_WooThemes {
 			die( 'Failed security check' );
 		} // End If Statement
 
-		do_action( 'pre_contact_form_process' );
+		do_action( 'pre_contact_form_submission' );
 
 		//If the form is submitted
 		if( isset( $args['submitted'] ) ) {
@@ -488,7 +550,9 @@ final class Contact_Details_by_WooThemes {
 					$body = __( "Name: $name \n\nEmail: $email \n\nComments: $comments", 'woothemes' );
 					$headers = __( 'From: ', 'woothemes') . "$name <$email>" . "\r\n" . __( 'Reply-To: ', 'woothemes' ) . $email;
 					// Send the mail
+					do_action( 'pre_contact_form_process' );
 					$emailSent = wp_mail( $emailTo, $subject, $body, $headers );
+					do_action( 'post_contact_form_process' );
 					if( $sendCopy == 'true' ) {
 						$subject = __( 'You emailed ', 'woothemes' ) . stripslashes( get_bloginfo( 'title' ) );
 						$headers = __( 'From: ', 'woothemes' ) . "$name <$emailTo>";
@@ -501,7 +565,8 @@ final class Contact_Details_by_WooThemes {
 			} // End If Statement
 		} // End If Statement
 
-		do_action( 'post_contact_form_process' );
+		do_action( 'post_contact_form_submission' );
+
 		if ( !isset($_POST['form']) ) {
 
 			return array(	'emailSent' => $emailSent,
@@ -516,14 +581,19 @@ final class Contact_Details_by_WooThemes {
 		} else {
 			die( $emailSent );
 		} // End If Statement
-
 	} // End form_callback()
 
-	public function woo_maps_contact_output($args){
-
-		if ( !is_array($args) )
+	/**
+	 * Google Maps html and JS
+	 * @access public
+	 * @param  $args array
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function maps_contact_output($args){
+		if ( !is_array($args) ) {
 			parse_str( $args, $args );
-
+		} // End If Statement
 		extract($args);
 
 		$map_height = $this->map_height;
@@ -532,7 +602,7 @@ final class Contact_Details_by_WooThemes {
 		$marker_title = $this->map_marker_title;
 		$marker_color = $this->map_marker_color;
 
-		if(empty($map_height)) { $map_height = 250;} ?>
+		if(empty($map_height)) { $map_height = 250; } ?>
 
 		<div id="single_map_canvas" style="width:100%; height: <?php echo $map_height; ?>px"></div>
 
@@ -571,9 +641,8 @@ final class Contact_Details_by_WooThemes {
 			initialize();
 			});
 		</script>
-
 	<?php
-	} // End woo_maps_contact_output()
+	} // End maps_contact_output()
 
 } // End Class
 ?>

@@ -5,9 +5,6 @@ Todo
 
 Add styling for theme fixes for map common issues:
 
-#single_map_canvas label { width: auto; display:inline; }
-#single_map_canvas img { max-width: none; background: none; }
-
 Move JS to separate file
 Account for multiple maps, forms, and html ids
 Additional Styling
@@ -28,5 +25,7 @@ All output functions take the following arguments:
 Contact Form Actions:
 - pre_contact_form_process
 - post_contact_form_process
+- pre_contact_form_submission
+- post_contact_form_submission
 
 Add Filters for Contact Title and Messages
