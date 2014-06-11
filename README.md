@@ -3,7 +3,6 @@ contact-details-by-woothemes
 
 Todo
 
-- Move JS to separate file
 - Account for multiple maps, forms, and html ids
 - Additional Styling for twitter/facebook links
 

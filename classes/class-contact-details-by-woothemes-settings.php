@@ -25,6 +25,7 @@ final class Contact_Details_by_WooThemes_Settings {
 	 * @access  public
 	 * @since   1.0.0
 	 * @param   array $input Inputted data.
+	 * @param   string $section field section.
 	 * @return  array        Validated data.
 	 */
 	public function validate_settings ( $input, $section ) {
@@ -235,6 +236,7 @@ final class Contact_Details_by_WooThemes_Settings {
 	/**
 	 * Retrieve the settings fields details
 	 * @access  public
+	 * @param  string $section field section.
 	 * @since   1.0.0
 	 * @return  array        Settings fields.
 	 */
@@ -263,6 +265,7 @@ final class Contact_Details_by_WooThemes_Settings {
 	/**
 	 * Retrieve the settings fields details
 	 * @access  public
+	 * @param  string $section field section.
 	 * @since   1.0.0
 	 * @return  array        Settings fields.
 	 */
@@ -350,50 +353,10 @@ final class Contact_Details_by_WooThemes_Settings {
 				break;
 		}
 
-		// $settings_fields['checkbox'] = array(
-		// 								'name' => __( 'Example Checkbox', 'contact-details-by-woothemes' ),
-		// 								'type' => 'checkbox',
-		// 								'default' => '',
-		// 								'section' => 'example-fields',
-		// 								'description' => __( 'Place the field description text here.', 'contact-details-by-woothemes' )
-		// 							);
-		// $settings_fields['radio'] = array(
-		// 								'name' => __( 'Example Radio Buttons', 'contact-details-by-woothemes' ),
-		// 								'type' => 'radio',
-		// 								'default' => '',
-		// 								'section' => 'example-fields',
-		// 								'options' => array(
-		// 													'one' => __( 'One', 'contact-details-by-woothemes' ),
-		// 													'two' => __( 'Two', 'contact-details-by-woothemes' ),
-		// 													'three' => __( 'Three', 'contact-details-by-woothemes' )
-		// 											),
-		// 								'description' => __( 'Place the field description text here.', 'contact-details-by-woothemes' )
-		// 							);
-		// $settings_fields['select'] = array(
-		// 									'name' => __( 'Example Select', 'contact-details-by-woothemes' ),
-		// 									'type' => 'select',
-		// 									'default' => '',
-		// 									'section' => 'example-fields',
-		// 									'options' => array(
-		// 													'one' => __( 'One', 'contact-details-by-woothemes' ),
-		// 													'two' => __( 'Two', 'contact-details-by-woothemes' ),
-		// 													'three' => __( 'Three', 'contact-details-by-woothemes' )
-		// 												),
-		// 									'description' => __( 'Place the field description text here.', 'contact-details-by-woothemes' )
-		// 							);
-
-		// $settings_fields['select_taxonomy'] = array(
-		// 									'name' => __( 'Example Taxonomy Selector', 'contact-details-by-woothemes' ),
-		// 									'type' => 'select_taxonomy',
-		// 									'default' => '',
-		// 									'section' => 'example-fields',
-		// 									'description' => __( 'Place the field description text here.', 'contact-details-by-woothemes' )
-		// 							);
-
 		return (array)apply_filters( 'contact-details-by-woothemes-settings-fields', $settings_fields );
 	} // End get_settings_fields()
 
-		/**
+	/**
 	 * Render HTML markup for the "text" field type.
 	 * @access  protected
 	 * @since   6.0.0
@@ -561,6 +524,9 @@ final class Contact_Details_by_WooThemes_Settings {
 	/**
 	 * Return a value, using a desired retrieval method.
 	 * @access  public
+	 * @param  string $key option key.
+	 * @param  string $default default value.
+	 * @param  string $section field section.
 	 * @since   1.0.0
 	 * @return  mixed Returned value.
 	 */

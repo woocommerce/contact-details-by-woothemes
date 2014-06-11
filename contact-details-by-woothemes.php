@@ -200,24 +200,52 @@ final class Contact_Details_by_WooThemes {
 	 * @return void
 	 */
 	public function load_javascripts_stylesheets() {
+		$this->setup_data();
 		// JS
 		wp_register_script( 'contact-details-google-maps', 'http://maps.google.com/maps/api/js?sensor=false' );
 		wp_register_script( 'contact-details-google-maps-markers', $this->plugin_url . 'assets/js/markers.min.js' );
 		wp_enqueue_script( 'contact-details-google-maps' );
 		wp_enqueue_script( 'contact-details-google-maps-markers' );
-
+		wp_register_script( 'contact-details-google-maps-initialize', $this->plugin_url . 'assets/js/maps.min.js', array( 'jquery' ) );
+		$title = str_replace( array( '&#8220;','&#8221;' ), '"', $this->map_marker_title );
+		$title = str_replace( '&#8211;', '-', $title );
+		$title = str_replace( '&#8217;', "`", $title );
+		$title = str_replace( '&#038;', '&', $title );
+	  	$title = html_entity_decode( $title );
+		$geocoords = explode( ',', $this->geocoords );
+		$translation_array = array( 	'geocoords_x' => $geocoords[0],
+										'geocoords_y' => $geocoords[1],
+										'map_type' => $this->map_type,
+										'zoom' => $this->map_zoom,
+										'map_mouse_scroll' => $this->map_mouse_scroll,
+										'plugin_url' => $this->plugin_url,
+										'map_callout' => preg_replace( "/[\n\r]/","<br/>",$this->callout ),
+										'map_link' => get_permalink( get_the_id() ),
+										'marker_title' => $title,
+										'marker_color' => $this->map_marker_color
+									);
+		wp_localize_script( 'contact-details-google-maps-initialize', 'contact_details', $translation_array );
+		// The script can be enqueued now or later.
+		wp_enqueue_script( 'contact-details-google-maps-initialize' );
 		// CSS
 		wp_enqueue_style( 'contact-details-styles', $this->plugin_url . 'assets/css/general.css' );
 	} // End load_javascripts_stylesheets()
 
+	/**
+	 * Load Admin JS and CSS
+	 * @access public
+	 * @since  1.0.0
+	 * @return void
+	 */
 	public function load_admin_javascripts_stylesheets() {
 		// CSS
 		wp_enqueue_style( 'contact-details-admin-styles', $this->plugin_url . 'assets/css/admin.css' );
-	}
+	} // End load_admin_javascripts_stylesheets()
 
 	/**
 	 * Main output function for contact details
 	 * @access public
+	 * @param  $atts mixed
 	 * @since  1.0.0
 	 * @return void
 	 */
@@ -226,8 +254,6 @@ final class Contact_Details_by_WooThemes {
 	        'display' => 'all'
 	    ), $atts );
 
-	    // Setup data
-	    $this->setup_data();
 	    do_action( 'pre_contact_details_output' );
 
 	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'details' ) ) {
@@ -269,9 +295,9 @@ final class Contact_Details_by_WooThemes {
 	    // Next version -> create options for these
 	    $this->map_height 					= 250;
 	    $this->map_zoom 					= 9;
-	    $this->map_type 					= 'ROADMAP'; // SATELLITE, HYBRID, TERRAIN
+	    $this->map_type 					= 'SATELLITE'; // SATELLITE, HYBRID, TERRAIN
 	    $this->map_marker_color 			= 'red';
-	    $this->disable_map_mouse_scroll 	= false;
+	    $this->map_mouse_scroll 			= 'false';
 	} // End setup_data()
 
 	/**
@@ -337,75 +363,15 @@ final class Contact_Details_by_WooThemes {
 		<!-- MAP -->
 		<section id="location-map" itemscope itemtype="http://schema.org/Place">
     		<?php if ( $this->geocoords != '' ) {
-				$this->maps_contact_output( "geocoords=$this->geocoords" );
-			} ?>
+    			$map_height 	= $this->map_height;
+				if ( empty( $map_height ) ) {
+					$map_height = 250;
+				} // End If Statement ?>
+				<div itemprop="map" id="single_map_canvas" style="width:100%; height: <?php echo $map_height; ?>px"></div><!-- /#single_map_canvas -->
+			<?php } ?>
     	</section><!-- /#location-map -->
 
     	<?php do_action( 'post_contact_details_map_output' );
 	} // End map_output()
 
-	/**
-	 * Google Maps html and JS
-	 * @access public
-	 * @param  $args array
-	 * @since  1.0.0
-	 * @return void
-	 */
-	public function maps_contact_output( $args ) {
-		if ( ! is_array( $args ) ) {
-			parse_str( $args, $args );
-		} // End If Statement
-		extract( $args );
-
-		$map_height 	= $this->map_height;
-		$zoom 			= $this->map_zoom;
-		$type 			= $this->map_type;
-		$marker_title 	= $this->map_marker_title;
-		$marker_color 	= $this->map_marker_color;
-
-		if ( empty( $map_height ) ) {
-			$map_height = 250;
-		} ?>
-
-		<div itemprop="map" id="single_map_canvas" style="width:100%; height: <?php echo $map_height; ?>px"></div><!-- /#single_map_canvas -->
-
-	    <script type="text/javascript">
-			jQuery(document).ready(function(){
-				function initialize() {
-				  	var myLatlng 	= new google.maps.LatLng(<?php echo $this->geocoords; ?>);
-					var myOptions 	= {
-					  zoom: <?php echo $zoom; ?>,
-					  center: myLatlng,
-					  mapTypeId: google.maps.MapTypeId.<?php echo $type; ?>
-					};
-					<?php if ( $this->disable_map_mouse_scroll === true ) { ?>
-				  		myOptions.scrollwheel = false;
-				  	<?php } ?>
-				  	var map 		= new google.maps.Map(document.getElementById("single_map_canvas"),  myOptions);
-			  		var point 		= new google.maps.LatLng(<?php echo $this->geocoords; ?>);
-	  				var root 		= "<?php echo esc_url( $this->plugin_url ); ?>";
-	  				var callout 	= '<?php echo preg_replace( "/[\n\r]/","<br/>",$this->callout ); ?>';
-	  				var the_link 	= '<?php echo get_permalink( get_the_id() ); ?>';
-	  				<?php
-	  					$title = str_replace( array( '&#8220;','&#8221;' ), '"', $marker_title );
-	  					$title = str_replace( '&#8211;', '-', $title );
-	  					$title = str_replace( '&#8217;', "`", $title );
-	  					$title = str_replace( '&#038;', '&', $title );
-	  				?>
-	  				var the_title 	= '<?php echo html_entity_decode( $title ) ?>';
-				 	var color 		= '<?php echo $this->map_marker_color; ?>';
-		  			createMarker(map,point,root,the_link,the_title,color,callout);
-				} // End initialize()
-
-				function handleNoFlash( errorCode ) {
-					if (errorCode == FLASH_UNAVAILABLE) {
-						alert( "Error: Flash doesn't appear to be supported by your browser" );
-						return;
-					}
-				} // End handleNoFlash()
-			initialize();
-			});
-		</script>
-	<?php
-	} // End maps_contact_output()
 } // End Class
