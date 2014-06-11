@@ -218,6 +218,7 @@ final class Contact_Details_by_WooThemes {
 	    ), $atts );
 	    // Setup data
 	    $this->setup_data();
+	    do_action( 'pre_contact_details_output' );
 	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'details' ) ) {
 	    	// Output location
 			$this->location_output();
@@ -230,6 +231,7 @@ final class Contact_Details_by_WooThemes {
 	    	// Output map
 			$this->map_output();
 	    } // End If Statement
+	    do_action( 'post_contact_details_output' );
 	} // End contact_details_output()
 
 	/**
@@ -263,18 +265,22 @@ final class Contact_Details_by_WooThemes {
 	 * @return void
 	 */
 	public function location_output() {
+		do_action( 'pre_contact_details_location_output' );
 		?>
 		<!-- LOCATION -->
-		<section id="location-details">
-			<?php if (isset($this->map_marker_title) && $this->map_marker_title != '' ) { ?><h2><?php _e( $this->map_marker_title, 'woothemes' ); ?></h2><?php } ?>
-    	    <?php if (isset($this->address) && $this->address != '' ) { ?><p><?php echo nl2br( esc_html( $this->address ) ); ?></p><?php } ?>
-	    	<p>
-	    	    <?php if (isset($this->phone_number) && $this->phone_number != '' ) { ?><?php _e('Tel:','woothemes'); ?> <?php echo esc_html( $this->phone_number ); ?><br /><?php } ?>
-	    	    <?php if (isset($this->fax_number) && $this->fax_number != '' ) { ?><?php _e('Fax:','woothemes'); ?> <?php echo esc_html( $this->fax_number ); ?><br /><?php } ?>
-	    	    <?php if (isset($this->email_address) && $this->email_address != '' ) { ?><?php _e('Email:','woothemes'); ?> <a href="mailto:<?php echo esc_attr( $this->email_address ); ?>"><?php echo esc_html( $this->email_address ); ?></a><br /><?php } ?>
-	    	</p>
-		</section><!-- /.location -->
+		<section id="location-details" itemscope itemtype="http://schema.org/Place">
+			<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="contact-address">
+				<?php if (isset($this->map_marker_title) && $this->map_marker_title != '' ) { ?><h2 itemprop="location"><?php _e( $this->map_marker_title, 'woothemes' ); ?></h2><?php } ?>
+    	    	<?php if (isset($this->address) && $this->address != '' ) { ?><p itemprop="streetAddress"><?php echo nl2br( esc_html( $this->address ) ); ?></p><?php } ?>
+    		</div><!-- /.contact-address -->
+	    	<div class="contact-numbers">
+	    	    <?php if (isset($this->phone_number) && $this->phone_number != '' ) { ?><span itemprop="telephone"><?php _e('Tel:','woothemes'); ?> <?php echo esc_html( $this->phone_number ); ?></span><br /><?php } ?>
+	    	    <?php if (isset($this->fax_number) && $this->fax_number != '' ) { ?><span itemprop="faxNumber"><?php _e('Fax:','woothemes'); ?> <?php echo esc_html( $this->fax_number ); ?></span><br /><?php } ?>
+	    	    <?php if (isset($this->email_address) && $this->email_address != '' ) { ?><?php _e('Email:','woothemes'); ?> <a href="mailto:<?php echo esc_attr( $this->email_address ); ?>" itemprop="email"><?php echo esc_html( $this->email_address ); ?></a><br /><?php } ?>
+	    	</div><!-- /.contact-numbers -->
+		</section><!-- /#location-details -->
 		<?php
+		do_action( 'post_contact_details_location_output' );
 	} // End location_output()
 
 	/**
@@ -284,13 +290,15 @@ final class Contact_Details_by_WooThemes {
 	 * @return void
 	 */
 	public function social_output() {
+		do_action( 'pre_contact_details_social_output' );
 		?>
 		<!-- SOCIAL MEDIA -->
-		<section id="location-social-media">
-			<a href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'woothemes' ); ?></a>
-			<a href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'woothemes' ); ?></a>
-		</section>
+		<section id="location-social-media" itemscope itemtype="http://schema.org/Place">
+			<a itemprop="url" href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'woothemes' ); ?></a>
+			<a itemprop="url" href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'woothemes' ); ?></a>
+		</section><!-- /#location-social-media -->
 		<?php
+		do_action( 'post_contact_details_social_output' );
 	} // End social_output()
 
 	/**
@@ -300,16 +308,16 @@ final class Contact_Details_by_WooThemes {
 	 * @return void
 	 */
 	public function map_output() {
+		do_action( 'pre_contact_details_map_output' );
 		?>
 		<!-- MAP -->
-		<section id="location-map">
-    		<?php if ($this->geocoords != '') { ?>
-				<section id="map">
-			    	<?php $this->maps_contact_output("geocoords=$this->geocoords"); ?>
-				</section>
-			<?php } ?>
+		<section id="location-map" itemscope itemtype="http://schema.org/Place">
+    		<?php if ($this->geocoords != '') {
+				$this->maps_contact_output("geocoords=$this->geocoords");
+			} ?>
     	</section><!-- /#location-map -->
     	<?php
+    	do_action( 'post_contact_details_map_output' );
 	} // End map_output()
 
 	/**
@@ -333,7 +341,7 @@ final class Contact_Details_by_WooThemes {
 
 		if(empty($map_height)) { $map_height = 250; } ?>
 
-		<div id="single_map_canvas" style="width:100%; height: <?php echo $map_height; ?>px"></div>
+		<div itemprop="map" id="single_map_canvas" style="width:100%; height: <?php echo $map_height; ?>px"></div><!-- /#single_map_canvas -->
 
 	    <script type="text/javascript">
 			jQuery(document).ready(function(){

@@ -3,11 +3,9 @@ contact-details-by-woothemes
 
 Todo
 
-Add styling for theme fixes for map common issues:
-
-Move JS to separate file
-Account for multiple maps, forms, and html ids
-Additional Styling
+- Move JS to separate file
+- Account for multiple maps, forms, and html ids
+- Additional Styling for twitter/facebook links
 
 How to output:
 
@@ -22,10 +20,12 @@ All output functions take the following arguments:
 - 'social'
 - 'map'
 
-Contact Form Actions:
-- pre_contact_form_process
-- post_contact_form_process
-- pre_contact_form_submission
-- post_contact_form_submission
-
-Add Filters for Contact Title and Messages
+Contact Details Actions:
+- pre_contact_details_output
+- pre_contact_details_location_output
+- pre_contact_details_social_output
+- pre_contact_details_map_output
+- post_contact_details_output
+- post_contact_details_location_output
+- post_contact_details_social_output
+- post_contact_details_map_output
