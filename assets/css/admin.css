@@ -1,0 +1,6 @@
+.contact-details-by-woothemes-wrap div.settings-error {
+  display: none;
+}
+.contact-details-by-woothemes-wrap div.settings-error:nth-of-type(1) {
+  display: block;
+}

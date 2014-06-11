@@ -42,13 +42,29 @@ final class Contact_Details_by_WooThemes_Admin {
 	 */
 	public function settings_screen () {
 		global $title;
+		if ( isset ( $_GET['tab'] ) ) {
+			$tab = $_GET['tab'];
+		} else {
+			$tab = 'contact-fields';
+		} // End If Statement
+   		$sections = Contact_Details_by_WooThemes()->settings->get_settings_sections( 'all' );
 ?>
 		<div class="wrap contact-details-by-woothemes-wrap">
-			<h2><?php echo $title; ?></h2>
+			<h2 class="nav-tab-wrapper">
+				<?php
+				foreach ( $sections as $key => $value ) {
+					$class = '';
+					if ( $tab == $key ) {
+						$class = ' nav-tab-active';
+					} // End If Statement
+					echo '<a href="' . admin_url( 'options-general.php?page=contact-details-by-woothemes&tab=' . $key ) . '" class="nav-tab' . $class . '">' . $value . '</a>';
+				} // End For Loop
+				?>
+			</h2>
 			<form action="options.php" method="post">
 				<?php
-					settings_fields( 'contact-details-by-woothemes-settings' );
-					do_settings_sections( 'contact-details-by-woothemes' );
+					settings_fields( 'contact-details-by-woothemes-settings-' . $tab );
+					do_settings_sections( 'contact-details-by-woothemes-' . $tab );
 					submit_button( __( 'Save Changes', 'contact-details-by-woothemes' ) );
 				?>
 			</form>
@@ -63,17 +79,32 @@ final class Contact_Details_by_WooThemes_Admin {
 	 * @return  void
 	 */
 	public function register_settings () {
+
+		// Contact Details Settings
 		// Register the setting we'll use to store our information.
-		register_setting( 'contact-details-by-woothemes-settings', 'contact-details-by-woothemes', array( $this, 'validate_settings' ) );
+		register_setting( 'contact-details-by-woothemes-settings-contact-fields', 'contact-details-by-woothemes-contact-fields', array( $this, 'validate_contact_settings' ) );
 
 		// Register settings sections.
-		$sections = Contact_Details_by_WooThemes()->settings->get_settings_sections();
+		$sections = Contact_Details_by_WooThemes()->settings->get_settings_sections( 'contact-fields' );
 
 		if ( 0 < count( $sections ) ) {
 			foreach ( $sections as $k => $v ) {
-				add_settings_section( $k, $v, array( $this, 'render_settings' ), 'contact-details-by-woothemes' );
+				add_settings_section( $k, $v, array( $this, 'render_contact_settings' ), 'contact-details-by-woothemes-contact-fields' );
 			}
 		}
+		// Map Details Settings
+		// Register the setting we'll use to store our information.
+		register_setting( 'contact-details-by-woothemes-settings-map-fields', 'contact-details-by-woothemes-map-fields', array( $this, 'validate_map_settings' ) );
+
+		// Register settings sections.
+		$sections = Contact_Details_by_WooThemes()->settings->get_settings_sections( 'map-fields' );
+
+		if ( 0 < count( $sections ) ) {
+			foreach ( $sections as $k => $v ) {
+				add_settings_section( $k, $v, array( $this, 'render_map_settings' ), 'contact-details-by-woothemes-map-fields' );
+			}
+		}
+
 	} // End register_settings()
 
 	/**
@@ -82,14 +113,32 @@ final class Contact_Details_by_WooThemes_Admin {
 	 * @since   1.0.0
 	 * @return  void
 	 */
-	public function render_settings ( $args ) {
-		$fields = Contact_Details_by_WooThemes()->settings->get_settings_fields();
+	public function render_contact_settings ( $args ) {
+		$fields = Contact_Details_by_WooThemes()->settings->get_settings_fields( 'contact-fields' );
 
 		if ( 0 < count( $fields ) ) {
 			foreach ( $fields as $k => $v ) {
 				$args = $v;
 				$args['id'] = $k;
-				add_settings_field( $k, $v['name'], array( Contact_Details_by_WooThemes()->settings, 'render_field' ), 'contact-details-by-woothemes', $v['section'], $args );
+				add_settings_field( $k, $v['name'], array( Contact_Details_by_WooThemes()->settings, 'render_contact_field' ), 'contact-details-by-woothemes-contact-fields', $v['section'], $args );
+			}
+		}
+	} // End render_contact_settings()
+
+	/**
+	 * Render the settings.
+	 * @access  public
+	 * @since   1.0.0
+	 * @return  void
+	 */
+	public function render_map_settings ( $args ) {
+		$fields = Contact_Details_by_WooThemes()->settings->get_settings_fields( 'map-fields' );
+
+		if ( 0 < count( $fields ) ) {
+			foreach ( $fields as $k => $v ) {
+				$args = $v;
+				$args['id'] = $k;
+				add_settings_field( $k, $v['name'], array( Contact_Details_by_WooThemes()->settings, 'render_map_field' ), 'contact-details-by-woothemes-map-fields', $v['section'], $args );
 			}
 		}
 	} // End render_settings()
@@ -101,8 +150,19 @@ final class Contact_Details_by_WooThemes_Admin {
 	 * @param   array $input Inputted data.
 	 * @return  array        Validated data.
 	 */
-	public function validate_settings ( $input ) {
-		return Contact_Details_by_WooThemes()->settings->validate_settings( $input );
-	} // End validate_settings()
+	public function validate_contact_settings ( $input ) {
+		return Contact_Details_by_WooThemes()->settings->validate_settings( $input, 'contact-fields' );
+	} // End validate_contact_settings()
+
+	/**
+	 * Validate the settings.
+	 * @access  public
+	 * @since   1.0.0
+	 * @param   array $input Inputted data.
+	 * @return  array        Validated data.
+	 */
+	public function validate_map_settings ( $input ) {
+		return Contact_Details_by_WooThemes()->settings->validate_settings( $input, 'map-fields' );
+	} // End validate_map_settings()
 } // End Class
 ?>

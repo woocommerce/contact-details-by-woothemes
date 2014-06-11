@@ -101,7 +101,7 @@ final class Contact_Details_by_WooThemes {
 		if ( is_admin() ) {
 			require_once( 'classes/class-contact-details-by-woothemes-admin.php' );
 			$this->admin = new Contact_Details_by_WooThemes_Admin();
-		}
+		} // End If Statement
 
 		require_once( 'classes/class-contact-details-by-woothemes-widget.php' );
 
@@ -118,6 +118,9 @@ final class Contact_Details_by_WooThemes {
 
 		// Load JavaScripts and Stylesheets
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_javascripts_stylesheets' ) );
+		if ( is_admin() ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'load_admin_javascripts_stylesheets' ) );
+		} // End If Statement
 
 		// Load Shortcode
 		add_shortcode( 'contact_details', array( $this, 'contact_details_output' ) );
@@ -206,6 +209,11 @@ final class Contact_Details_by_WooThemes {
 		wp_enqueue_style( 'contact-details-styles', $this->plugin_url . 'assets/css/general.css' );
 	} // End load_javascripts_stylesheets()
 
+	public function load_admin_javascripts_stylesheets() {
+		// CSS
+		wp_enqueue_style( 'contact-details-admin-styles', $this->plugin_url . 'assets/css/admin.css' );
+	}
+
 	/**
 	 * Main output function for contact details
 	 * @access public
@@ -241,15 +249,15 @@ final class Contact_Details_by_WooThemes {
 	 * @return void
 	 */
 	public function setup_data() {
-		$this->phone_number = $this->settings->get_value( 'phone_number', '' );
-	    $this->fax_number = $this->settings->get_value( 'fax_number', '' );
-	    $this->address = $this->settings->get_value( 'address', '' );
-	    $this->email_address = $this->settings->get_value( 'email_address', '' );
-	    $this->twitter = $this->settings->get_value( 'twitter', '' );
-	    $this->facebook = $this->settings->get_value( 'facebook', '' );
-	    $this->geocoords = $this->settings->get_value( 'map_coords', '' );
-	    $this->callout = $this->settings->get_value( 'callout', '' );
-	    $this->map_marker_title = $this->settings->get_value( 'location_name', '' );
+		$this->phone_number = $this->settings->get_value( 'phone_number', '', 'contact-fields' );
+	    $this->fax_number = $this->settings->get_value( 'fax_number', '', 'contact-fields' );
+	    $this->address = $this->settings->get_value( 'address', '', 'contact-fields' );
+	    $this->email_address = $this->settings->get_value( 'email_address', '', 'contact-fields' );
+	    $this->twitter = $this->settings->get_value( 'twitter', '', 'contact-fields' );
+	    $this->facebook = $this->settings->get_value( 'facebook', '', 'contact-fields' );
+	    $this->geocoords = $this->settings->get_value( 'map_coords', '', 'map-fields' );
+	    $this->callout = $this->settings->get_value( 'callout', '', 'map-fields' );
+	    $this->map_marker_title = $this->settings->get_value( 'location_name', '', 'contact-fields' );
 	    // Next version -> create options for these
 	    $this->map_height = 250;
 	    $this->map_zoom = 9;
@@ -294,8 +302,8 @@ final class Contact_Details_by_WooThemes {
 		?>
 		<!-- SOCIAL MEDIA -->
 		<section id="location-social-media" itemscope itemtype="http://schema.org/Place">
-			<a itemprop="url" href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'woothemes' ); ?></a>
-			<a itemprop="url" href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'woothemes' ); ?></a>
+			<?php if ( isset( $this->twitter ) && '' != $this->twitter ) { ?><a itemprop="url" href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'woothemes' ); ?></a><?php } ?>
+			<?php if ( isset( $this->facebook ) && '' != $this->facebook ) { ?><a itemprop="url" href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'woothemes' ); ?></a><?php } ?>
 		</section><!-- /#location-social-media -->
 		<?php
 		do_action( 'post_contact_details_social_output' );
