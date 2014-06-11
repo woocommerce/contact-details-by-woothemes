@@ -36,7 +36,7 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 	public function __construct() {
 		/* Widget variable settings. */
 		$this->contact_details_by_woothemes_widget_cssclass 	= 'widget_contact_details_by_woothemes_items';
-		$this->contact_details_by_woothemes_widget_description = __( 'Contact Details by WooThemes.', 'contact-details-by-woothemes' );
+		$this->contact_details_by_woothemes_widget_description 	= __( 'Contact Details by WooThemes.', 'contact-details-by-woothemes' );
 		$this->contact_details_by_woothemes_widget_idbase 		= 'contact-details-by-woothemes';
 		$this->contact_details_by_woothemes_widget_title 		= __( 'Contact Details by WooThemes', 'contact-details-by-woothemes' );
 
@@ -112,8 +112,11 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 				echo $before_title . $title . $after_title;
 
 		echo '<div class="contact-details-by-woothemes-connect">';
-		$atts = array( 'display' => $output );
-		Contact_Details_by_WooThemes()->contact_details_output( $atts );
+			$atts = array(
+						'display' => $output
+						);
+
+			Contact_Details_by_WooThemes()->contact_details_output( $atts );
 		echo '</div><!--/.contact-details-by-woothemes-connect-->';
 
 		echo $after_widget;
@@ -143,9 +146,12 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 
 		/* Flush cache. */
 		$this->flush_widget_cache();
+
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
-		if ( isset($alloptions['widget_woothemes_wc_items']) )
+
+		if ( isset($alloptions['widget_woothemes_wc_items']) ) {
 			delete_option( 'widget_woothemes_wc_items' );
+		}
 
 		return $instance;
 	} // End update()
@@ -175,10 +181,10 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 		</p>
 
 		<?php
-		$select_data = array(	'all' => __('All Contact Details', 'woothemes' ),
-								'details' => __('Location Details', 'woothemes' ),
-								'social' => __('Social Media Icons', 'woothemes' ),
-								'map' => __('Google Map', 'woothemes' )
+		$select_data = array(	'all' 		=> __( 'All Contact Details', 'woothemes' ),
+								'details' 	=> __( 'Location Details', 'woothemes' ),
+								'social' 	=> __( 'Social Media Icons', 'woothemes' ),
+								'map' 		=> __( 'Google Map', 'woothemes' )
 								 );
 		?>
 		<p>

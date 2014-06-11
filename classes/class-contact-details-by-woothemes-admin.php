@@ -20,6 +20,7 @@ final class Contact_Details_by_WooThemes_Admin {
 	public function __construct () {
 		// Register the settings with WordPress.
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+
 		// Register the settings screen within WordPress.
 		add_action( 'admin_menu', array( $this, 'register_settings_screen' ) );
 	} // End __construct()
@@ -54,9 +55,11 @@ final class Contact_Details_by_WooThemes_Admin {
 				<?php
 				foreach ( $sections as $key => $value ) {
 					$class = '';
+
 					if ( $tab == $key ) {
 						$class = ' nav-tab-active';
 					} // End If Statement
+
 					echo '<a href="' . admin_url( 'options-general.php?page=contact-details-by-woothemes&tab=' . $key ) . '" class="nav-tab' . $class . '">' . $value . '</a>';
 				} // End For Loop
 				?>
@@ -92,6 +95,7 @@ final class Contact_Details_by_WooThemes_Admin {
 				add_settings_section( $k, $v, array( $this, 'render_contact_settings' ), 'contact-details-by-woothemes-contact-fields' );
 			}
 		}
+
 		// Map Details Settings
 		// Register the setting we'll use to store our information.
 		register_setting( 'contact-details-by-woothemes-settings-map-fields', 'contact-details-by-woothemes-map-fields', array( $this, 'validate_map_settings' ) );
@@ -118,8 +122,9 @@ final class Contact_Details_by_WooThemes_Admin {
 
 		if ( 0 < count( $fields ) ) {
 			foreach ( $fields as $k => $v ) {
-				$args = $v;
+				$args 		= $v;
 				$args['id'] = $k;
+
 				add_settings_field( $k, $v['name'], array( Contact_Details_by_WooThemes()->settings, 'render_contact_field' ), 'contact-details-by-woothemes-contact-fields', $v['section'], $args );
 			}
 		}
@@ -165,4 +170,3 @@ final class Contact_Details_by_WooThemes_Admin {
 		return Contact_Details_by_WooThemes()->settings->validate_settings( $input, 'map-fields' );
 	} // End validate_map_settings()
 } // End Class
-?>
