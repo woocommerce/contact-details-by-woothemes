@@ -254,6 +254,8 @@ final class Contact_Details_by_WooThemes {
 	        'display' => 'all'
 	    ), $atts );
 
+		ob_start();
+
 	    do_action( 'pre_contact_details_output' );
 
 	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'details' ) ) {
@@ -273,6 +275,9 @@ final class Contact_Details_by_WooThemes {
 
 	    do_action( 'post_contact_details_output' );
 
+	    $output_string = ob_get_contents();
+		ob_end_clean();
+		return $output_string;
 	} // End contact_details_output()
 
 	/**
