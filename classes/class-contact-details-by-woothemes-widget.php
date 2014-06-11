@@ -178,8 +178,7 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 		$select_data = array(	'all' => __('All Contact Details', 'woothemes' ),
 								'details' => __('Location Details', 'woothemes' ),
 								'social' => __('Social Media Icons', 'woothemes' ),
-								'map' => __('Google Map', 'woothemes' ),
-								'form' => __('Contact Form', 'woothemes' )
+								'map' => __('Google Map', 'woothemes' )
 								 );
 		?>
 		<p>
