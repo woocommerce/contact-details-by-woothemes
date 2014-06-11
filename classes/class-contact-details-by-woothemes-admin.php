@@ -47,7 +47,7 @@ final class Contact_Details_by_WooThemes_Admin {
 		} else {
 			$tab = 'contact-fields';
 		} // End If Statement
-   		$sections = Contact_Details_by_WooThemes()->settings->get_settings_sections();
+   		$sections = Contact_Details_by_WooThemes()->settings->get_settings_sections( $tab );
 ?>
 		<div class="wrap contact-details-by-woothemes-wrap">
 			<h2 class="nav-tab-wrapper">
