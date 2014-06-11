@@ -115,7 +115,6 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 			$atts = array(
 						'display' => $output
 						);
-
 			echo Contact_Details_by_WooThemes()->contact_details_output( $atts );
 		echo '</div><!--/.contact-details-by-woothemes-connect-->';
 
@@ -181,10 +180,10 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 		</p>
 
 		<?php
-		$select_data = array(	'all' 		=> __( 'All Contact Details', 'woothemes' ),
-								'details' 	=> __( 'Location Details', 'woothemes' ),
-								'social' 	=> __( 'Social Media Icons', 'woothemes' ),
-								'map' 		=> __( 'Google Map', 'woothemes' )
+		$select_data = array(	'all' 		=> __( 'All Contact Details', 'contact-details-by-woothemes' ),
+								'details' 	=> __( 'Location Details', 'contact-details-by-woothemes' ),
+								'social' 	=> __( 'Social Media Icons', 'contact-details-by-woothemes' ),
+								'map' 		=> __( 'Google Map', 'contact-details-by-woothemes' )
 								 );
 		?>
 		<p>

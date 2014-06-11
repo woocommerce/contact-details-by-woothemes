@@ -318,14 +318,14 @@ final class Contact_Details_by_WooThemes {
 		<section id="location-details" itemscope itemtype="http://schema.org/Place">
 
 			<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="contact-address">
-				<?php if ( isset( $this->map_marker_title ) && $this->map_marker_title != '' ) { ?><h2 itemprop="location"><?php _e( $this->map_marker_title, 'woothemes' ); ?></h2><?php } ?>
+				<?php if ( isset( $this->map_marker_title ) && $this->map_marker_title != '' ) { ?><h2 itemprop="location"><?php _e( $this->map_marker_title, 'contact-details-by-woothemes' ); ?></h2><?php } ?>
     	    	<?php if ( isset( $this->address ) && $this->address != '' ) { ?><p itemprop="streetAddress"><?php echo nl2br( esc_html( $this->address ) ); ?></p><?php } ?>
     		</div><!-- /.contact-address -->
 
 	    	<div class="contact-numbers">
-	    	    <?php if ( isset( $this->phone_number ) && $this->phone_number != '' ) { ?><span itemprop="telephone"><?php _e( 'Tel:','woothemes' ); ?> <?php echo esc_html( $this->phone_number ); ?></span><br /><?php } ?>
-	    	    <?php if ( isset( $this->fax_number ) && $this->fax_number != '' ) { ?><span itemprop="faxNumber"><?php _e( 'Fax:','woothemes' ); ?> <?php echo esc_html( $this->fax_number ); ?></span><br /><?php } ?>
-	    	    <?php if ( isset( $this->email_address ) && $this->email_address != '' ) { ?><?php _e('Email:','woothemes'); ?> <a href="mailto:<?php echo esc_attr( $this->email_address ); ?>" itemprop="email"><?php echo esc_html( $this->email_address ); ?></a><br /><?php } ?>
+	    	    <?php if ( isset( $this->phone_number ) && $this->phone_number != '' ) { ?><span itemprop="telephone"><?php _e( 'Tel:','contact-details-by-woothemes' ); ?> <?php echo esc_html( $this->phone_number ); ?></span><br /><?php } ?>
+	    	    <?php if ( isset( $this->fax_number ) && $this->fax_number != '' ) { ?><span itemprop="faxNumber"><?php _e( 'Fax:','contact-details-by-woothemes' ); ?> <?php echo esc_html( $this->fax_number ); ?></span><br /><?php } ?>
+	    	    <?php if ( isset( $this->email_address ) && $this->email_address != '' ) { ?><?php _e('Email:', 'contact-details-by-woothemes' ); ?> <a href="mailto:<?php echo esc_attr( $this->email_address ); ?>" itemprop="email"><?php echo esc_html( $this->email_address ); ?></a><br /><?php } ?>
 	    	</div><!-- /.contact-numbers -->
 
 		</section><!-- /#location-details -->
@@ -345,11 +345,11 @@ final class Contact_Details_by_WooThemes {
 		<!-- SOCIAL MEDIA -->
 		<section id="location-social-media" itemscope itemtype="http://schema.org/Place">
 			<?php if ( isset( $this->twitter ) && '' != $this->twitter ) { ?>
-				<a itemprop="url" href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'woothemes' ); ?></a>
+				<a itemprop="url" href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'contact-details-by-woothemes' ); ?></a>
 			<?php } ?>
 
 			<?php if ( isset( $this->facebook ) && '' != $this->facebook ) { ?>
-				<a itemprop="url" href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'woothemes' ); ?></a>
+				<a itemprop="url" href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'contact-details-by-woothemes' ); ?></a>
 			<?php } ?>
 		</section><!-- /#location-social-media -->
 
