@@ -161,7 +161,7 @@ final class Contact_Details_by_WooThemes_Settings {
 	 * @since   1.0.0
 	 * @return  array        Settings fields.
 	 */
-	public function get_settings_sections () {
+	public function get_settings_sections ( $section ) {
 		$settings_sections = array();
 		// Declare the default settings fields.
 		$settings_sections['contact-fields'] = __( 'Contact Details', 'contact-details-by-woothemes' );
@@ -176,82 +176,86 @@ final class Contact_Details_by_WooThemes_Settings {
 	 * @since   1.0.0
 	 * @return  array        Settings fields.
 	 */
-	public function get_settings_fields () {
+	public function get_settings_fields ( $section ) {
 		$settings_fields = array();
 		// Declare the default settings fields.
 
+		switch ( $section ) {
+			case 'contact-fields':
+				$settings_fields['phone_number'] = array(
+												'name' => __( 'Phone Number', 'contact-details-by-woothemes' ),
+												'type' => 'text',
+												'default' => '',
+												'section' => 'contact-fields',
+												'description' => __( 'Enter your phone number here.', 'contact-details-by-woothemes' )
+											);
 
-		$settings_fields['phone_number'] = array(
-										'name' => __( 'Phone Number', 'contact-details-by-woothemes' ),
-										'type' => 'text',
-										'default' => '',
-										'section' => 'contact-fields',
-										'description' => __( 'Enter your phone number here.', 'contact-details-by-woothemes' )
-									);
+				$settings_fields['fax_number'] = array(
+												'name' => __( 'Fax Number', 'contact-details-by-woothemes' ),
+												'type' => 'text',
+												'default' => '',
+												'section' => 'contact-fields',
+												'description' => __( 'Enter your fax number here.', 'contact-details-by-woothemes' )
+											);
 
-		$settings_fields['fax_number'] = array(
-										'name' => __( 'Fax Number', 'contact-details-by-woothemes' ),
-										'type' => 'text',
-										'default' => '',
-										'section' => 'contact-fields',
-										'description' => __( 'Enter your fax number here.', 'contact-details-by-woothemes' )
-									);
+				$settings_fields['location_name'] = array(
+												'name' => __( 'Location Name', 'contact-details-by-woothemes' ),
+												'type' => 'text',
+												'default' => '',
+												'section' => 'contact-fields',
+												'description' => __( 'Enter your location name here.', 'contact-details-by-woothemes' )
+											);
 
-		$settings_fields['location_name'] = array(
-										'name' => __( 'Location Name', 'contact-details-by-woothemes' ),
-										'type' => 'text',
-										'default' => '',
-										'section' => 'contact-fields',
-										'description' => __( 'Enter your location name here.', 'contact-details-by-woothemes' )
-									);
+				$settings_fields['address'] = array(
+												'name' => __( 'Address', 'contact-details-by-woothemes' ),
+												'type' => 'textarea',
+												'default' => '',
+												'section' => 'contact-fields',
+												'description' => __( 'Enter your address here.', 'contact-details-by-woothemes' )
+											);
 
-		$settings_fields['address'] = array(
-										'name' => __( 'Address', 'contact-details-by-woothemes' ),
-										'type' => 'textarea',
-										'default' => '',
-										'section' => 'contact-fields',
-										'description' => __( 'Enter your address here.', 'contact-details-by-woothemes' )
-									);
+				$settings_fields['email_address'] = array(
+												'name' => __( 'Email Address', 'contact-details-by-woothemes' ),
+												'type' => 'text',
+												'default' => '',
+												'section' => 'contact-fields',
+												'description' => __( 'Enter your email address here.', 'contact-details-by-woothemes' )
+											);
 
-		$settings_fields['email_address'] = array(
-										'name' => __( 'Email Address', 'contact-details-by-woothemes' ),
-										'type' => 'text',
-										'default' => '',
-										'section' => 'contact-fields',
-										'description' => __( 'Enter your email address here.', 'contact-details-by-woothemes' )
-									);
+				$settings_fields['twitter'] = array(
+												'name' => __( 'Twitter', 'contact-details-by-woothemes' ),
+												'type' => 'text',
+												'default' => '',
+												'section' => 'contact-fields',
+												'description' => __( 'Enter your Twitter URL here. Eg. http://twitter.com/woothemes', 'contact-details-by-woothemes' )
+											);
 
-		$settings_fields['twitter'] = array(
-										'name' => __( 'Twitter', 'contact-details-by-woothemes' ),
-										'type' => 'text',
-										'default' => '',
-										'section' => 'contact-fields',
-										'description' => __( 'Enter your Twitter URL here. Eg. http://twitter.com/woothemes', 'contact-details-by-woothemes' )
-									);
+				$settings_fields['facebook'] = array(
+												'name' => __( 'Facebook', 'contact-details-by-woothemes' ),
+												'type' => 'text',
+												'default' => '',
+												'section' => 'contact-fields',
+												'description' => __( 'Enter your Facebook URL here. Eg. http://facebook.com/woothemes', 'contact-details-by-woothemes' )
+											);
+			case 'map-fields':
+				$settings_fields['map_coords'] = array(
+												'name' => __( 'Google Map Coordinates', 'contact-details-by-woothemes' ),
+												'type' => 'text',
+												'default' => '',
+												'section' => 'map-fields',
+												'description' => __( 'Enter your Google Map coordinates to display a map on the Contact Form page template and a link to it on the Contact Us widget. You can get these details from Google Maps', 'contact-details-by-woothemes' )
+											);
 
-		$settings_fields['facebook'] = array(
-										'name' => __( 'Facebook', 'contact-details-by-woothemes' ),
-										'type' => 'text',
-										'default' => '',
-										'section' => 'contact-fields',
-										'description' => __( 'Enter your Facebook URL here. Eg. http://facebook.com/woothemes', 'contact-details-by-woothemes' )
-									);
+				$settings_fields['callout'] = array(
+												'name' => __( 'Callout', 'contact-details-by-woothemes' ),
+												'type' => 'textarea',
+												'default' => '',
+												'section' => 'map-fields',
+												'description' => __( 'Text or HTML, that will be output when you click on the map marker for your location.', 'contact-details-by-woothemes' )
+											);
+			default :
 
-		$settings_fields['map_coords'] = array(
-										'name' => __( 'Google Map Coordinates', 'contact-details-by-woothemes' ),
-										'type' => 'text',
-										'default' => '',
-										'section' => 'map-fields',
-										'description' => __( 'Enter your Google Map coordinates to display a map on the Contact Form page template and a link to it on the Contact Us widget. You can get these details from Google Maps', 'contact-details-by-woothemes' )
-									);
-
-		$settings_fields['callout'] = array(
-										'name' => __( 'Callout', 'contact-details-by-woothemes' ),
-										'type' => 'textarea',
-										'default' => '',
-										'section' => 'map-fields',
-										'description' => __( 'Text or HTML, that will be output when you click on the map marker for your location.', 'contact-details-by-woothemes' )
-									);
+		} // End Switch
 
 		// $settings_fields['checkbox'] = array(
 		// 								'name' => __( 'Example Checkbox', 'contact-details-by-woothemes' ),
@@ -470,7 +474,13 @@ final class Contact_Details_by_WooThemes_Settings {
 	public function get_value ( $key, $default ) {
 		$response = false;
 
-		$values = get_option( 'contact-details-by-woothemes', array() );
+		if ( isset ( $_GET['tab'] ) ) {
+			$tab = $_GET['tab'];
+		} else {
+			$tab = 'contact-fields';
+		} // End If Statement
+
+		$values = get_option( 'contact-details-by-woothemes' . $tab, array() );
 
 		if ( is_array( $values ) && isset( $values[$key] ) ) {
 			$response = $values[$key];
