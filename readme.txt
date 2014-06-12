@@ -23,6 +23,7 @@ Contact Details is the best plugin to get your users in touch with you!. You can
 1. Add the template action into your themes php -> do_action( 'contact_details' );
 2. Add the shortcode into the content of one of your posts or pages -> [contact_details]
 3. Add the widget to a widget area -> Contact Details by WooThemes
+4. Use the template tag in your themes php -> contact_details();
 
 All output functions take the following arguments:
 'display' with possible values of:

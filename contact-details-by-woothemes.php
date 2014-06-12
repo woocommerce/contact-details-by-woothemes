@@ -32,6 +32,22 @@ function Contact_Details_by_WooThemes() {
 Contact_Details_by_WooThemes();
 
 /**
+ * Main Output Template Tag
+ * @access public
+ * @param  $atts mixed
+ * @since  1.0.0
+ * @return void
+ */
+function contact_details( $atts = array() ) {
+	$a = shortcode_atts( array(
+        'display' => 'all'
+    ), $atts );
+
+	$action_output = Contact_Details_by_WooThemes()->contact_details_output( $atts );
+	echo $action_output;
+} // End contact_details()
+
+/**
  * Main Contact_Details_by_WooThemes Class
  *
  * @class Contact_Details_by_WooThemes
@@ -114,7 +130,7 @@ final class Contact_Details_by_WooThemes {
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
 		// Template Action
-		add_action( 'contact_details', array( $this, 'contact_details_output' ), 1, 1 );
+		add_action( 'contact_details', array( $this, 'contact_details_output_action' ), 1, 1 );
 
 		// Load JavaScripts and Stylesheets
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_javascripts_stylesheets' ) );
@@ -243,7 +259,22 @@ final class Contact_Details_by_WooThemes {
 	} // End load_admin_javascripts_stylesheets()
 
 	/**
-	 * Main output function for contact details
+	 * Main output function for contact details action
+	 * @access public
+	 * @param  $atts mixed
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function contact_details_output_action( $atts ) {
+		$a = shortcode_atts( array(
+	        'display' => 'all'
+	    ), $atts );
+		$action_output = $this->contact_details_output( $atts );
+		echo $action_output;
+	} // End contact_details_output_action()
+
+	/**
+	 * Main output function for contact details shortcode
 	 * @access public
 	 * @param  $atts mixed
 	 * @since  1.0.0
@@ -344,13 +375,19 @@ final class Contact_Details_by_WooThemes {
 
 		<!-- SOCIAL MEDIA -->
 		<section id="location-social-media" itemscope itemtype="http://schema.org/Place">
+			<ul>
 			<?php if ( isset( $this->twitter ) && '' != $this->twitter ) { ?>
-				<a itemprop="url" href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'contact-details-by-woothemes' ); ?></a>
+				<li>
+					<a itemprop="url" href="<?php echo esc_url( $this->twitter ); ?>"><?php _e( 'Twitter', 'contact-details-by-woothemes' ); ?></a>
+				</li>
 			<?php } ?>
 
 			<?php if ( isset( $this->facebook ) && '' != $this->facebook ) { ?>
-				<a itemprop="url" href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'contact-details-by-woothemes' ); ?></a>
+				<li>
+					<a itemprop="url" href="<?php echo esc_url( $this->facebook ); ?>"><?php _e( 'Facebook', 'contact-details-by-woothemes' ); ?></a>
+				</li>
 			<?php } ?>
+			</ul>
 		</section><!-- /#location-social-media -->
 
 		<?php do_action( 'post_contact_details_social_output' );

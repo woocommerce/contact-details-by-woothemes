@@ -4,11 +4,10 @@ contact-details-by-woothemes
 Todo
 
 - Account for multiple maps, forms, and html ids
-- Additional Styling for twitter/facebook links
 
 How to output:
 
-- Use the template action -> echo do_action( 'contact_details' );
+- Use the template action -> do_action( 'contact_details' );
 - Use the shortcode -> [contact_details]
 - Use the widget -> Contact Details by WooThemes
 

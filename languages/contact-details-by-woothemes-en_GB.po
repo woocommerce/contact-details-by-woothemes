@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Contact Details by WooThemes v1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-06-11 21:05:48+0000\n"
+"PO-Revision-Date: 2014-06-12 10:20:35+0000\n"
 "Last-Translator: info@woothemes.com\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgid "Enter your email address here."
 msgstr ""
 
 #: classes/class-contact-details-by-woothemes-settings.php:319
-#: contact-details-by-woothemes.php:348
+#: contact-details-by-woothemes.php:381
 #@ contact-details-by-woothemes
 msgid "Twitter"
 msgstr ""
@@ -105,7 +105,7 @@ msgid "Enter your Twitter URL here. Eg. http://twitter.com/woothemes"
 msgstr ""
 
 #: classes/class-contact-details-by-woothemes-settings.php:327
-#: contact-details-by-woothemes.php:352
+#: contact-details-by-woothemes.php:387
 #@ contact-details-by-woothemes
 msgid "Facebook"
 msgstr ""
@@ -163,11 +163,6 @@ msgstr ""
 msgid "Location Details"
 msgstr ""
 
-#: classes/class-contact-details-by-woothemes-widget.php:185
-#@ contact-details-by-woothemes
-msgid "Social Media Icons"
-msgstr ""
-
 #: classes/class-contact-details-by-woothemes-widget.php:186
 #@ contact-details-by-woothemes
 msgid "Google Map"
@@ -208,24 +203,29 @@ msgstr ""
 msgid "1.0.0"
 msgstr ""
 
-#: contact-details-by-woothemes.php:163
-#: contact-details-by-woothemes.php:172
+#: contact-details-by-woothemes.php:179
+#: contact-details-by-woothemes.php:188
 #@ default
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: contact-details-by-woothemes.php:326
+#: contact-details-by-woothemes.php:357
 #@ contact-details-by-woothemes
 msgid "Tel:"
 msgstr ""
 
-#: contact-details-by-woothemes.php:327
+#: contact-details-by-woothemes.php:358
 #@ contact-details-by-woothemes
 msgid "Fax:"
 msgstr ""
 
-#: contact-details-by-woothemes.php:328
+#: contact-details-by-woothemes.php:359
 #@ contact-details-by-woothemes
 msgid "Email:"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:185
+#@ contact-details-by-woothemes
+msgid "Social Media Links"
 msgstr ""
 

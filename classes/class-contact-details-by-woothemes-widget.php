@@ -141,7 +141,7 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 
 		/* Strip tags for title and name to remove HTML (important for text inputs). */
 		$instance['title'] 		= strip_tags( $new_instance['title'] );
-		$instance['output'] 	= wp_kses( $new_instance['output'] );
+		$instance['output'] 	= esc_html( $new_instance['output'] );
 
 		/* Flush cache. */
 		$this->flush_widget_cache();
@@ -182,7 +182,7 @@ class Contact_Details_by_WooThemes_Widget extends WP_Widget {
 		<?php
 		$select_data = array(	'all' 		=> __( 'All Contact Details', 'contact-details-by-woothemes' ),
 								'details' 	=> __( 'Location Details', 'contact-details-by-woothemes' ),
-								'social' 	=> __( 'Social Media Icons', 'contact-details-by-woothemes' ),
+								'social' 	=> __( 'Social Media Links', 'contact-details-by-woothemes' ),
 								'map' 		=> __( 'Google Map', 'contact-details-by-woothemes' )
 								 );
 		?>
