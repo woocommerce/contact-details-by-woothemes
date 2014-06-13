@@ -7,7 +7,7 @@ jQuery(document).ready(function(){
 		  center: myLatlng,
 		  mapTypeId: google.maps.mapType // SATELLITE, HYBRID, TERRAIN
 		};
-		if ( contact_details.map_mouse_scroll === 'false' )
+		if ( contact_details.map_mouse_scroll === 'false' ) {
 	  		myOptions.scrollwheel = false;
 	  	} // End If Statement
 	  	var map 		= new google.maps.Map(document.getElementById("single_map_canvas"),  myOptions);
@@ -24,7 +24,10 @@ jQuery(document).ready(function(){
 		if (errorCode == FLASH_UNAVAILABLE) {
 			alert( "Error: Flash doesn't appear to be supported by your browser" );
 			return;
-		}
+		} // End If Statement
 	} // End handleNoFlash()
-initialize();
+
+	if ( jQuery( '#single_map_canvas' ).length ) {
+		initialize();
+	} // End If Statement
 });

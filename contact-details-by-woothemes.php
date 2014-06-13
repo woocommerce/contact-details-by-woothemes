@@ -218,11 +218,11 @@ final class Contact_Details_by_WooThemes {
 	public function load_javascripts_stylesheets() {
 		$this->setup_data();
 		// JS
-		wp_register_script( 'contact-details-google-maps', 'http://maps.google.com/maps/api/js?sensor=false' );
-		wp_register_script( 'contact-details-google-maps-markers', $this->plugin_url . 'assets/js/markers.min.js' );
+		wp_register_script( 'contact-details-google-maps', 'http://maps.google.com/maps/api/js?sensor=false', false, false, true );
+		wp_register_script( 'contact-details-google-maps-markers', $this->plugin_url . 'assets/js/markers.min.js', false, false, true );
 		wp_enqueue_script( 'contact-details-google-maps' );
 		wp_enqueue_script( 'contact-details-google-maps-markers' );
-		wp_register_script( 'contact-details-google-maps-initialize', $this->plugin_url . 'assets/js/maps.min.js', array( 'jquery' ) );
+		wp_register_script( 'contact-details-google-maps-initialize', $this->plugin_url . 'assets/js/maps.min.js', array( 'jquery' ), false, true );
 		$title = str_replace( array( '&#8220;','&#8221;' ), '"', $this->map_marker_title );
 		$title = str_replace( '&#8211;', '-', $title );
 		$title = str_replace( '&#8217;', "`", $title );
