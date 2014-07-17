@@ -1,7 +1,6 @@
 === Contact Details by WooThemes ===
 Contributors: jeffikus, woothemes
-Donate link:
-Tags:
+Tags: contact details, contact, maps, map, social media
 Requires at least: 3.9
 Tested up to: 3.9.1
 Stable tag: 1.0.0

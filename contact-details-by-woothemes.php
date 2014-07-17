@@ -289,6 +289,8 @@ final class Contact_Details_by_WooThemes {
 
 	    do_action( 'pre_contact_details_output' );
 
+	    echo '<section class="contact-details">';
+
 	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'details' ) ) {
 	    	// Output location
 			$this->location_output();
@@ -298,6 +300,8 @@ final class Contact_Details_by_WooThemes {
 	    	// Output Social Media
 			$this->social_output();
 	    } // End If Statement
+
+	    echo '</section>';
 
 	    if ( isset( $a['display'] ) && ( $a['display'] == 'all' || $a['display'] == 'map' ) ) {
 	    	// Output map
@@ -346,7 +350,7 @@ final class Contact_Details_by_WooThemes {
 		do_action( 'pre_contact_details_location_output' );
 		?>
 		<!-- LOCATION -->
-		<section id="location-details" itemscope itemtype="http://schema.org/Place">
+		<section class="location-details" itemscope itemtype="http://schema.org/Place">
 
 			<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="contact-address">
 				<?php if ( isset( $this->map_marker_title ) && $this->map_marker_title != '' ) { ?><h2 itemprop="location"><?php _e( $this->map_marker_title, 'contact-details-by-woothemes' ); ?></h2><?php } ?>
@@ -374,7 +378,7 @@ final class Contact_Details_by_WooThemes {
 		do_action( 'pre_contact_details_social_output' ); ?>
 
 		<!-- SOCIAL MEDIA -->
-		<section id="location-social-media" itemscope itemtype="http://schema.org/Place">
+		<section class="location-social-media" itemscope itemtype="http://schema.org/Place">
 			<ul>
 			<?php if ( isset( $this->twitter ) && '' != $this->twitter ) { ?>
 				<li>
@@ -403,7 +407,7 @@ final class Contact_Details_by_WooThemes {
 		do_action( 'pre_contact_details_map_output' ); ?>
 
 		<!-- MAP -->
-		<section id="location-map" itemscope itemtype="http://schema.org/Place">
+		<section class="location-map" itemscope itemtype="http://schema.org/Place">
     		<?php if ( $this->geocoords != '' ) {
     			$map_height 	= $this->map_height;
 				if ( empty( $map_height ) ) {
