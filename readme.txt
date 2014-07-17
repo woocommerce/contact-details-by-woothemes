@@ -7,13 +7,28 @@ Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Contact Details is the best plugin to get your users in touch with you!.
+Contact Details is a simple little plugin that will allow you to configure various contact details in the WordPress admin then display them on your web site.
 
 == Description ==
 
-Contact Details is the best plugin to get your users in touch with you!.
+= Contact Details =
+Display various contact details including:
 
-Looking for a helping hand? [View plugin documentation](http://doc.woothemes.com/).
+* Phone number
+* Fax number
+* Location name & address
+* Email address
+
+= Social Media =
+Display links to your social media profiles on:
+
+* Facebook
+* Twitter
+
+= Map =
+Display a map of your address with a callout description.
+
+Looking for a helping hand? [View plugin documentation](http://docs.woothemes.com/document/getting-started-with-contact-details/).
 
 == Usage ==
 
