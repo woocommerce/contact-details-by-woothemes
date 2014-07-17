@@ -3,7 +3,7 @@ Contributors: jeffikus, woothemes
 Tags: contact details, contact, maps, map, social media
 Requires at least: 3.9
 Tested up to: 3.9.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -62,6 +62,10 @@ We encourage everyone to contribute their ideas, thoughts and code snippets. Thi
 * Initial release. Woo!
 
 == Changelog ==
+
+= 1.0.1 =
+* 2014-07-17
+* Tweak - Contact details markup
 
 = 1.0.0 =
 * 2014-06-05

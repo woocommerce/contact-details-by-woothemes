@@ -3,7 +3,7 @@
  * Plugin Name: Contact Details by WooThemes
  * Plugin URI: http://www.woothemes.com/
  * Description: Contact Details is the best plugin to get your users in touch with you!
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: WooThemes
  * Author URI: http://www.woothemes.com
  * Requires at least: 3.8.1
