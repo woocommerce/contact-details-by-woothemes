@@ -1,0 +1,174 @@
+# Copyright (C) 2014 Contact Details by WooThemes
+# This file is distributed under the same license as the Contact Details by WooThemes package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Contact Details by WooThemes 1.0.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-details-by-woothemes\n"
+"POT-Creation-Date: 2014-07-17 11:58:20+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: classes/class-contact-details-by-woothemes-admin.php:35
+msgid "Contact Details Settings"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-admin.php:35
+#: classes/class-contact-details-by-woothemes-settings.php:249
+#: classes/class-contact-details-by-woothemes-settings.php:255
+msgid "Contact Details"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-admin.php:71
+msgid "Save Changes"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:252
+#: classes/class-contact-details-by-woothemes-settings.php:256
+msgid "Map Details"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:279
+msgid "Phone Number"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:283
+msgid "Enter your phone number here."
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:287
+msgid "Fax Number"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:291
+msgid "Enter your fax number here."
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:295
+msgid "Location Name"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:299
+msgid "Enter your location name here."
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:303
+msgid "Address"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:307
+msgid "Enter your address here."
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:311
+msgid "Email Address"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:315
+msgid "Enter your email address here."
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:319
+#: contact-details-by-woothemes.php:385
+msgid "Twitter"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:323
+msgid "Enter your Twitter URL here. Eg. http://twitter.com/woothemes"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:327
+#: contact-details-by-woothemes.php:391
+msgid "Facebook"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:331
+msgid "Enter your Facebook URL here. Eg. http://facebook.com/woothemes"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:336
+msgid "Google Map Coordinates"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:340
+msgid "Enter your Google Map coordinates to display a map on the Contact Form page template and a link to it on the Contact Us widget. You can get these details from Google Maps"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:344
+msgid "Callout"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-settings.php:348
+msgid "Text or HTML, that will be output when you click on the map marker for your location."
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:39
+msgid "Contact Details by WooThemes."
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:41
+#: classes/class-contact-details-by-woothemes-widget.php:170
+msgid "Contact Details by WooThemes"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:178
+msgid "Title (optional):"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:183
+msgid "All Contact Details"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:184
+msgid "Location Details"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:185
+msgid "Social Media Links"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:186
+msgid "Google Map"
+msgstr ""
+
+#: classes/class-contact-details-by-woothemes-widget.php:190
+msgid "Output:"
+msgstr ""
+
+#: contact-details-by-woothemes.php:179 contact-details-by-woothemes.php:188
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: contact-details-by-woothemes.php:361
+msgid "Tel:"
+msgstr ""
+
+#: contact-details-by-woothemes.php:362
+msgid "Fax:"
+msgstr ""
+
+#: contact-details-by-woothemes.php:363
+msgid "Email:"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Contact Details by WooThemes"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.woothemes.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Contact Details is the best plugin to get your users in touch with you!"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WooThemes"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.woothemes.com"
+msgstr ""

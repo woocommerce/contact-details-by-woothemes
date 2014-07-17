@@ -65,6 +65,7 @@ We encourage everyone to contribute their ideas, thoughts and code snippets. Thi
 
 = 1.0.1 =
 * 2014-07-17
+* New - Added .pot file
 * Tweak - Contact details markup
 
 = 1.0.0 =
